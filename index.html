@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexey Taranukha</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Rubik',sans-serif;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* ===== BACKGROUND ===== */
+.bg-lines{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+
+.bg-lines path{
+  fill:none;
+  stroke-linecap:round;
+  stroke-dasharray:900 3600;
+  animation:travel 75s linear infinite;
+  opacity:0.9;
+}
+
+#line-main{stroke-width:3.2;stroke:#ffcc55;}
+#line2{stroke-width:1.6;stroke:#d4af37;}
+#line3{stroke-width:1.4;stroke:#cfae70;}
+
+@keyframes travel{
+  from{stroke-dashoffset:4500;opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  to{stroke-dashoffset:0;opacity:0;}
+}
+
+/* ===== LAYOUT ===== */
+.container{
+  padding-top:100vh;
+  padding-bottom:120vh;
+  position:relative;
+  z-index:2;
+}
+
+/* ===== CARDS ===== */
+.card{
+  position:relative;
+  width:82vw;
+  max-width:1200px;
+  height:88vh;
+  margin:0 auto 140px;
+  padding:110px 72px 72px;
+  border-radius:42px;
+  background:#1c1c1c;
+  box-shadow:0 30px 70px rgba(0,0,0,0.7);
+  display:flex;
+  align-items:center;
+  opacity:0;
+  transform:translateY(70px);
+  transition:opacity 0.35s ease, transform 0.4s ease;
+}
+
+.card.alt{background:#242424;}
+
+/* ===== INTRO ===== */
+.card.intro{
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:76vw;
+  max-width:1000px;
+  height:70vh;
+  padding:72px;
+  transform:translate(-50%, calc(-50% - 60px));
+  background:#121212;
+  z-index:10;
+  opacity:1;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.intro .role{
+  font-size:clamp(28px,4vw,40px);
+  font-weight:500;
+  line-height:1.15;
+  color:#ffd84d;
+}
+
+.intro .byline{
+  position:absolute;
+  bottom:36px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:13px;
+  letter-spacing:1px;
+  color:#aaa;
+}
+
+/* ===== CARD HEADER ===== */
+.card-header{
+  position:absolute;
+  top:32px;
+  left:36px;
+}
+
+.card-header .phrase{
+  font-family:'Parisienne',cursive;
+  font-size:clamp(28px,3vw,42px);
+  color:#ffd84d;
+  line-height:1.1;
+}
+
+/* ===== CONTENT ===== */
+.card-content{
+  max-width:760px;
+}
+
+.card-content p{
+  font-size:clamp(17px,1.6vw,22px);
+  line-height:1.65;
+  color:#ddd;
+}
+
+/* ===== FINAL ===== */
+.final{text-align:center;}
+
+.final p{
+  font-size:20px;
+  margin-bottom:22px;
+}
+
+/* ===== LINKS + ICONS ===== */
+.links{
+  display:flex;
+  justify-content:center;
+  gap:28px;
+}
+
+.links a{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#aaa;
+  text-decoration:none;
+  transition:color 0.2s ease;
+}
+
+.links svg{
+  width:18px;
+  height:18px;
+  fill:currentColor;
+}
+
+.links a:hover{
+  color:#ffd84d;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== BACKGROUND SVG ===== -->
+<svg class="bg-lines" viewBox="0 0 1920 12000" preserveAspectRatio="xMidYMid slice">
+  <path id="line-main" d="M960 -600 C 200 1600, 1720 3600, 300 5600 S 1600 9000, 960 11800"/>
+  <path id="line2" d="M200 -400 C 900 1400, -200 3000, 800 5200 S 400 8000, 700 11000"/>
+  <path id="line3" d="M1700 -700 C 900 1600, 2000 3200, 900 5400 S 1800 8600, 900 11400"/>
+</svg>
+
+<!-- ===== INTRO ===== -->
+<div class="card intro" id="card1">
+  <div class="role">
+    Content Producer • Vertical Video • AI Tools
+  </div>
+  <div class="byline">
+    by Alexey Taranukha
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card alt" id="card2">
+    <div class="card-header"><div class="phrase">How I See Content</div></div>
+    <div class="card-content">
+      <p>
+        Я продюсер контента.  
+        Работаю с вертикальными видео и личными брендами.  
+        Думаю системно и выстраиваю рост, а не просто делаю ролики.
+      </p>
+    </div>
+  </div>
+
+  <div class="card" id="card3">
+    <div class="card-header"><div class="phrase">What I Actually Do</div></div>
+    <div class="card-content">
+      <p>
+        Полное продюсирование контента.  
+        Идеи, сценарии, монтаж, визуальная стратегия.  
+        Использую AI-инструменты для скорости и масштаба.
+      </p>
+    </div>
+  </div>
+
+  <div class="card alt" id="card4">
+    <div class="card-header"><div class="phrase">Work That Speaks</div></div>
+    <div class="card-content">
+      <p>
+        Проекты с авторами и брендами.  
+        Контент, который удерживает внимание  
+        и работает на рост, а не на случайный охват.
+      </p>
+    </div>
+  </div>
+
+  <div class="card final" id="card5">
+    <div class="card-content">
+      <p>If this way of thinking resonates — let’s talk.</p>
+
+      <div class="links">
+        <a href="https://t.me/azbyka009" target="_blank">
+          <!-- Telegram icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M9.9 16.2 9.7 19c.4 0 .6-.2.8-.4l1.9-1.8 3.9 2.8c.7.4 1.2.2 1.4-.6l2.6-12.2c.2-.9-.3-1.3-1-1L3.5 10.2c-.8.3-.8.8-.1 1l4 1.2L17 7.6c.4-.3.8-.1.5.2"/>
+          </svg>
+          Telegram
+        </a>
+
+        <a href="https://www.instagram.com/azbyka.offical?igsh=MTJlYTJpaHlmY29yag%3D%3D&utm_source=qr" target="_blank">
+          <!-- Instagram icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm5 5.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5Zm6.2-.9a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1Z"/>
+          </svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const cards=document.querySelectorAll('.card');
+const first=document.getElementById('card1');
+
+window.addEventListener('scroll',()=>{
+  const vh=window.innerHeight;
+
+  cards.forEach((card,i)=>{
+    const r=card.getBoundingClientRect();
+
+    if(i===0){
+      const t=document.getElementById('card2').getBoundingClientRect().top;
+      first.style.opacity=t<vh*0.85?0:1;
+      first.style.transform=
+        `translate(-50%, calc(-50% - ${60+Math.min(30,Math.max(0,(vh*0.85-t)/3))}px))`;
+      return;
+    }
+
+    const s=vh*0.9,e=vh*0.35;
+    if(r.top<s&&r.bottom>vh*0.1){
+      let p=(s-r.top)/(s-e);p=Math.min(1,Math.max(0,p));
+      card.style.opacity=p;
+      card.style.transform=`translateY(${70-70*p}px)`;
+    }else if(r.top>=s){
+      card.style.opacity=0;
+      card.style.transform='translateY(70px)';
+    }else{
+      card.style.opacity=1;
+      card.style.transform='translateY(0)';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
