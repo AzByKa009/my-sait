@@ -1,334 +1,193 @@
+index.html
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aleksey Taranukha — AI & Digital Production</title>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-64XG5H6PPD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-64XG5H6PPD');
-</script>
-
+<title>Stacked Cards Landing</title>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --black:#0b0b0b;
-  --dark:#121212;
-  --white:#f5f5f5;
-  --muted:#8f8f8f;
-  --gold:#c8a14a;
-}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Rubik',sans-serif;
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+    position:relative;
+  }
 
-*{margin:0;padding:0;box-sizing:border-box}
+  /* Фоновые линии */
+  .bg-lines{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+  }
 
-html,body{
-  background:var(--black);
-  color:var(--white);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;
-  scroll-behavior:smooth;
-}
+  .line{
+    stroke:gold;
+    stroke-width:2;
+    fill:none;
+    stroke-dasharray:1000;
+    stroke-dashoffset:1000;
+    animation: draw 5s linear infinite alternate;
+  }
+  .line:nth-child(2){ animation-delay: 1.5s; stroke-width:1.5; }
+  .line:nth-child(3){ animation-delay: 3s; stroke-width:1.2; }
 
-body{overflow-x:hidden}
+  @keyframes draw{
+    0%{ stroke-dashoffset:1000; }
+    50%{ stroke-dashoffset:0; }
+    100%{ stroke-dashoffset:1000; }
+  }
 
-::selection{background:var(--gold);color:#000}
+  .container{ padding-top:100vh; padding-bottom:200px; }
 
-header{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  padding:28px 8vw;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
-  backdrop-filter:blur(10px);
-  background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);
-}
+  /* Первая карточка фиксирована */
+  .card.first{
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, calc(-50% - 60px));
+    max-width:1000px;
+    max-height:80vh;
+    padding:50px;
+    border-radius:40px;
+    background:#111;
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+    z-index:10;
+    transition:opacity 0.2s linear, transform 0.2s linear;
+  }
 
-.logo{
-  font-size:14px;
-  letter-spacing:.4em;
-  text-transform:uppercase;
-}
+  .card{
+    width:85%;
+    max-width:1000px;
+    margin:60px auto;
+    padding:50px;
+    border-radius:40px;
+    background:#222;
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+    opacity:0;
+    transform:translateY(50px);
+    transition:opacity 0.25s linear, transform 0.3s ease-out;
+  }
 
-nav a{
-  margin-left:40px;
-  font-size:11px;
-  letter-spacing:.25em;
-  text-transform:uppercase;
-  color:var(--muted);
-  text-decoration:none;
-}
+  .card.alt{ background:#333; }
 
-section{
-  min-height:100vh;
-  padding:140px 8vw;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
+  .text{ font-size:clamp(16px,1.9vw,24px); line-height:1.5; color:#ddd; }
+  .byline{ display:block; margin-top:20px; text-align:center; font-size:14px; color:#aaa; }
 
-h1,h2,h3{
-  font-weight:500;
-  letter-spacing:-0.03em;
-}
+  /* Заголовки */
+  .title{ font-family:'Parisienne', cursive; margin-bottom:20px; }
 
-h1{
-  font-size:clamp(44px,6vw,96px);
-  line-height:1.05;
-}
+  /* Первый слайд — чуть меньше */
+  .card.first .title{
+    font-size: clamp(34px, 6vw, 50px);
+    color: gold;
+  }
 
-h2{
-  font-size:clamp(30px,4vw,56px);
-  margin-bottom:32px;
-}
+  /* Второй слайд — чуть больше */
+  #card2 .title{
+    font-size: clamp(45px, 7vw, 68px);
+    color: gold;
+  }
 
-p{
-  font-size:18px;
-  line-height:1.6;
-  color:var(--muted);
-  max-width:720px;
-}
-
-.hero{
-  background:
-    radial-gradient(900px 500px at 15% 20%,rgba(200,161,74,.06),transparent),
-    radial-gradient(600px 400px at 80% 60%,rgba(255,255,255,.035),transparent);
-}
-
-.hero p{margin:36px 0 56px}
-
-.cta{
-  display:flex;
-  gap:28px;
-  flex-wrap:wrap;
-}
-
-button{
-  background:transparent;
-  border:1px solid var(--gold);
-  color:var(--white);
-  padding:18px 36px;
-  font-size:12px;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  cursor:pointer;
-  transition:all .8s cubic-bezier(.2,.6,0,1);
-}
-
-button:hover{
-  background:var(--gold);
-  color:#000;
-}
-
-.about,.cases,.services,.contact{
-  background:var(--dark);
-}
-
-.case-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:40px;
-  margin-top:56px;
-}
-
-.case{
-  padding:40px;
-  border:1px solid rgba(255,255,255,.06);
-  background:rgba(255,255,255,.02);
-  backdrop-filter:blur(10px);
-  transition:transform 1.4s cubic-bezier(.2,.6,0,1);
-}
-
-.case:hover{transform:translateY(-6px)}
-
-.case h3{font-size:22px;margin-bottom:18px}
-
-.pricing{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:40px;
-  margin-top:56px;
-}
-
-.price{
-  padding:48px;
-  border:1px solid rgba(200,161,74,.35);
-  background:rgba(255,255,255,.015);
-  backdrop-filter:blur(10px);
-  display:flex;
-  flex-direction:column;
-}
-
-.price h3{
-  font-size:24px;
-  margin-bottom:16px;
-  min-height:72px;
-}
-
-.price span{
-  display:block;
-  font-size:13px;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  color:var(--gold);
-  margin-bottom:24px;
-}
-
-footer{
-  padding:80px 8vw;
-  text-align:center;
-  font-size:13px;
-  color:var(--muted);
-}
-
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  filter:blur(5px);
-  transition:all 2.4s cubic-bezier(.2,.6,0,1);
-}
-
-.reveal.visible{
-  opacity:1;
-  transform:none;
-  filter:none;
-}
-
-.contact-links{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  margin-top:32px;
-}
-
-.contact-links a{
-  color:var(--white);
-  text-decoration:none;
-  font-size:14px;
-  letter-spacing:.05em;
-}
-
-@media(max-width:768px){
-  nav{display:none}
-  section{padding:120px 6vw}
-}
+  /* Остальные слайды */
+  .card:not(.first):not(#card2) .title{
+    font-size: clamp(40px, 7vw, 60px);
+    color: gold;
+  }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">Aleksey&nbsp;Taranukha</div>
-  <nav>
-    <a href="#about">Обо мне</a>
-    <a href="#cases">Кейсы</a>
-    <a href="#services">Услуги</a>
-    <a href="#contact">Контакты</a>
-  </nav>
-</header>
+<svg class="bg-lines" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <path class="line" d="M100 200 C 400 50, 800 350, 1200 150" />
+  <path class="line" d="M200 900 C 500 700, 1000 1000, 1600 800" />
+  <path class="line" d="M0 500 C 600 200, 1300 700, 1920 300" />
+</svg>
 
-<section class="hero">
-  <h1 class="reveal">
-    Я создаю<br>
-    цифровые продукты<br>
-    с ощущением<br>
-    уверенного уровня
-  </h1>
-  <p class="reveal">
-    AI, vibe coding и продюсирование для предпринимателей и брендов, которым важно спокойное доверие и понятный результат.
-  </p>
-  <div class="cta reveal">
-    <button onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Купить услугу</button>
-    <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Написать мне</button>
+<!-- Первая карточка -->
+<div class="card first" id="card1">
+  <h1 class="title">Created for You</h1>
+  <span class="byline">by Alexey Taranukha</span>
+</div>
+
+<div class="container">
+  <!-- Вторая карточка -->
+  <div class="card alt" id="card2">
+    <h2 class="title">About Me</h2>
+    <p class="text">
+      Привет! Меня зовут Алексей Тарануха, мне 16 лет. Я студент, просыпаюсь в 6 утра и посещаю пары до 14–16 часов. После обеда уделяю около часа анализу графиков и торговли. Хожу в зал 1,5–2 часа.<br><br>
+      Изучаю заработок в интернете и эксперементирую с ИИ-инструментами. Связываю начинающих монтажёров с заказчиками и беру небольшой процент за успешные проекты. В день могу вести 5–6 персонализированных сообщений клиентам.<br><br>
+      Увлечения: анализ рынка, улучшение видеоконтента, исследование креативных решений с ИИ.
+    </p>
   </div>
-</section>
 
-<section id="about" class="about">
-  <h2 class="reveal">Обо мне</h2>
-  <p class="reveal">
-    Меня зовут Алексей Тарануха. Я работаю на стыке AI, дизайна и кода и привык мыслить продуктом, а не отдельными экранами или решениями. В каждом проекте для меня важна логика: зачем он существует, как воспринимается и какую роль играет для бизнеса и человека по ту сторону экрана. Я спокойно выстраиваю структуру, где смысл, визуал и движение не спорят друг с другом, а усиливают общее ощущение целостности. Мне важно, чтобы цифровой продукт выглядел уверенно, был понятен без объяснений и вызывал доверие с первого экрана и на всём пути взаимодействия.
-  </p>
-</section>
-
-<section id="cases" class="cases">
-  <h2 class="reveal">Кейсы</h2>
-  <div class="case-grid">
-    <div class="case reveal">
-      <h3>Премиальное AI-портфолио</h3>
-      <p>Одностраничный сайт для эксперта, который чётко формирует образ.</p>
-    </div>
-    <div class="case reveal">
-      <h3>Digital-образ бренда</h3>
-      <p>Сдержанный визуальный стиль и продуманная структура.</p>
-    </div>
-    <div class="case reveal">
-      <h3>Продюсерский лендинг</h3>
-      <p>Последовательный путь от интереса к действию.</p>
-    </div>
+  <!-- Третья карточка -->
+  <div class="card" id="card3">
+    <h2 class="title">Collaborations</h2>
+    <p class="text">
+      Выбранные работы и сотрудничества с брендами. Примеры проектов, коллаборации по созданию контента и решения с использованием ИИ.
+    </p>
   </div>
-</section>
 
-<section id="services" class="services">
-  <h2 class="reveal">Услуги</h2>
-  <div class="pricing">
-    <div class="price reveal">
-      <h3>Монтаж видео (вертикальные форматы)</h3>
-      <span>от 2 999 ₽</span>
-      <p>Чистый ритм, точные акценты, фокус на удержание внимания.</p>
-    </div>
-    <div class="price reveal">
-      <h3>Продюсирование</h3>
-      <span>от 4 999 ₽</span>
-      <p>Контроль идеи, формы и подачи. Контент как система.</p>
-    </div>
-    <div class="price reveal">
-      <h3>Продюсирование с AI-видео</h3>
-      <span>от 7 999 ₽</span>
-      <p>AI как инструмент усиления, а не замены вкуса.</p>
-    </div>
-    <div class="price reveal">
-      <h3>Создание AI-продукта</h3>
-      <span>от 7 999 ₽</span>
-      <p>Решения под конкретную задачу и продукт.</p>
-    </div>
-    <div class="price reveal">
-      <h3>Vibe coding</h3>
-      <span>от 14 999 ₽</span>
-      <p>Интерфейсы с характером, ритмом и вниманием к деталям.</p>
-    </div>
+  <!-- Четвёртая карточка -->
+  <div class="card alt" id="card4">
+    <h2 class="title">What I Do</h2>
+    <p class="text">
+      Продакшн, монтаж, визуальная стратегия и другие креативные услуги.
+      Предоставляю комплексные решения для развития контента и бренда.
+    </p>
   </div>
-</section>
-
-<section id="contact" class="contact">
-  <h2 class="reveal">Контакт</h2>
-  <p class="reveal">
-    Если вам нужен спокойный, выверенный цифровой продукт — напишите мне.
-  </p>
-  <div class="contact-links reveal">
-    <a href="https://t.me/azbyka009" target="_blank">Telegram</a>
-    <a href="https://www.instagram.com/azbyka.offical" target="_blank">Instagram</a>
-  </div>
-</section>
-
-<footer>
-© Aleksey Taranukha
-</footer>
+</div>
 
 <script>
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
+const cards=document.querySelectorAll('.card');
+const firstCard=document.getElementById('card1');
+
+window.addEventListener('scroll',()=>{
+  const vh=window.innerHeight;
+  cards.forEach((card,index)=>{
+    const rect=card.getBoundingClientRect();
+
+    if(index===0){
+      const secondTop=document.getElementById('card2').getBoundingClientRect().top;
+      firstCard.style.opacity=secondTop<vh*0.85?0:1;
+
+      // Двигаем первую карточку чуть выше при прокрутке
+      let moveY=Math.min(30,Math.max(0,(vh*0.85-secondTop)/3));
+      firstCard.style.transform=`translate(-50%, calc(-50% - ${60+moveY}px))`;
+      return;
+    }
+
+    const appearStart=vh*0.95;
+    const appearEnd=vh*0.3;
+    if(rect.top<appearStart && rect.bottom>vh*0.1){
+      let progress=(appearStart-rect.top)/(appearStart-appearEnd);
+      progress=Math.min(1,Math.max(0,progress));
+      card.style.opacity=progress;
+      card.style.transform=`translateY(${50-50*progress}px)`;
+    } else if(rect.top>=appearStart){
+      card.style.opacity=0;
+      card.style.transform=`translateY(50px)`;
+    } else if(rect.bottom<=vh*0.1){
+      card.style.opacity=1;
+      card.style.transform=`translateY(0px)`;
+    }
+
+    const prev=cards[index-1];
+    if(prev){
+      const overlap=appearStart-rect.top;
+      prev.style.opacity=overlap>0?Math.max(0,1-overlap/(appearStart-appearEnd)):1;
     }
   });
-},{threshold:0.15});
-
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+});
 </script>
 
 </body>
