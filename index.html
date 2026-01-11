@@ -254,10 +254,138 @@ button:hover{
   overflow:hidden;
 }
 
-.project-video video{
+.video-container{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+.video-container video{
   width:100%;
   height:100%;
   object-fit:cover;
+  display:block;
+}
+
+.video-controls{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+
+.video-container:hover .video-controls{
+  opacity:1;
+}
+
+.control-buttons{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.play-btn{
+  background:none;
+  border:none;
+  color:var(--white);
+  font-size:14px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  border-radius:4px;
+  transition:background 0.2s ease;
+}
+
+.play-btn:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.time-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:1;
+}
+
+.time-display{
+  font-size:12px;
+  color:var(--white);
+  min-width:100px;
+}
+
+.progress-bar{
+  flex:1;
+  height:4px;
+  background:rgba(255,255,255,0.2);
+  border-radius:2px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+
+.progress{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  background:var(--gold);
+  width:0%;
+  transition:width 0.1s linear;
+}
+
+.volume-control{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.volume-slider{
+  width:60px;
+  height:4px;
+  background:rgba(255,255,255,0.2);
+  border-radius:2px;
+  cursor:pointer;
+  position:relative;
+}
+
+.volume-level{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  background:var(--gold);
+  width:100%;
+}
+
+.volume-icon{
+  color:var(--white);
+  font-size:14px;
+  cursor:pointer;
+}
+
+.fullscreen-btn{
+  background:none;
+  border:none;
+  color:var(--white);
+  font-size:14px;
+  cursor:pointer;
+  padding:5px;
+  border-radius:4px;
+  transition:background 0.2s ease;
+}
+
+.fullscreen-btn:hover{
+  background:rgba(255,255,255,0.1);
 }
 
 .project-info{
@@ -361,9 +489,11 @@ button:hover{
   overflow:hidden;
 }
 
-.project-main-video video{
-  width:100%;
+.project-main-video .video-container{
   height:100%;
+}
+
+.project-main-video video{
   object-fit:contain;
 }
 
@@ -463,6 +593,17 @@ footer{
   .case-cta{flex-direction:column;}
   .project-stats{flex-wrap:wrap;}
   .project-main-video{height:300px;}
+  .video-controls{
+    padding:15px;
+    opacity:1;
+  }
+  .time-display{
+    min-width:80px;
+    font-size:11px;
+  }
+  .volume-slider{
+    width:40px;
+  }
 }
 </style>
 </head>
@@ -597,6 +738,127 @@ function backToProjects() {
     parent.querySelector('.projects-grid').style.display = 'grid';
 }
 
+// Функции для управления видео
+function initVideoPlayer(videoElement) {
+    const container = videoElement.closest('.video-container');
+    const playBtn = container.querySelector('.play-btn');
+    const progressBar = container.querySelector('.progress-bar');
+    const progress = container.querySelector('.progress');
+    const timeDisplay = container.querySelector('.time-display');
+    const volumeSlider = container.querySelector('.volume-slider');
+    const volumeLevel = container.querySelector('.volume-level');
+    const volumeIcon = container.querySelector('.volume-icon');
+    const fullscreenBtn = container.querySelector('.fullscreen-btn');
+    
+    // Убрать автозапуск
+    videoElement.autoplay = false;
+    videoElement.muted = false;
+    
+    // Форматирование времени
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+    
+    // Обновление времени
+    function updateTime() {
+        const currentTime = videoElement.currentTime;
+        const duration = videoElement.duration;
+        const progressPercent = (currentTime / duration) * 100;
+        progress.style.width = `${progressPercent}%`;
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+    }
+    
+    // Обновление иконки воспроизведения
+    function updatePlayIcon() {
+        playBtn.innerHTML = videoElement.paused ? 
+            '▶️ Воспроизвести' : 
+            '⏸️ Пауза';
+    }
+    
+    // Обновление иконки громкости
+    function updateVolumeIcon() {
+        if (videoElement.muted || videoElement.volume === 0) {
+            volumeIcon.textContent = '🔇';
+        } else if (videoElement.volume < 0.5) {
+            volumeIcon.textContent = '🔉';
+        } else {
+            volumeIcon.textContent = '🔊';
+        }
+        volumeLevel.style.width = `${videoElement.volume * 100}%`;
+    }
+    
+    // Переключение воспроизведения
+    playBtn.addEventListener('click', () => {
+        if (videoElement.paused) {
+            videoElement.play();
+        } else {
+            videoElement.pause();
+        }
+        updatePlayIcon();
+    });
+    
+    // Клик по прогресс-бару
+    progressBar.addEventListener('click', (e) => {
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        videoElement.currentTime = percent * videoElement.duration;
+    });
+    
+    // Управление громкостью
+    volumeSlider.addEventListener('click', (e) => {
+        const rect = volumeSlider.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        videoElement.volume = Math.max(0, Math.min(1, percent));
+        videoElement.muted = false;
+        updateVolumeIcon();
+    });
+    
+    // Переключение звука
+    volumeIcon.addEventListener('click', () => {
+        videoElement.muted = !videoElement.muted;
+        updateVolumeIcon();
+    });
+    
+    // Полноэкранный режим
+    fullscreenBtn.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+            container.requestFullscreen().catch(err => {
+                console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
+    
+    // События видео
+    videoElement.addEventListener('timeupdate', updateTime);
+    videoElement.addEventListener('play', updatePlayIcon);
+    videoElement.addEventListener('pause', updatePlayIcon);
+    videoElement.addEventListener('volumechange', updateVolumeIcon);
+    videoElement.addEventListener('loadedmetadata', () => {
+        updateTime();
+        updateVolumeIcon();
+    });
+    
+    // Инициализация
+    updatePlayIcon();
+    updateVolumeIcon();
+}
+
+// Инициализация всех видеоплееров после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+    // Ждем немного, чтобы все элементы точно были загружены
+    setTimeout(() => {
+        document.querySelectorAll('video').forEach(video => {
+            if (video.closest('.video-container')) {
+                initVideoPlayer(video);
+            }
+        });
+    }, 100);
+});
+
 const cases={
   1:`
     <div class="case-header">
@@ -609,9 +871,29 @@ const cases={
     <div class="projects-grid">
       <div class="project-item" onclick="showProject('artem')">
         <div class="project-video">
-          <video autoplay muted loop playsinline>
-            <source src="videos/artem-brius.mp4" type="video/mp4">
-          </video>
+          <div class="video-container">
+            <video>
+              <source src="videos/artem-brius.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+              <div class="control-buttons">
+                <button class="play-btn">▶️ Воспроизвести</button>
+                <div class="time-controls">
+                  <div class="time-display">0:00 / 0:00</div>
+                  <div class="progress-bar">
+                    <div class="progress"></div>
+                  </div>
+                </div>
+                <div class="volume-control">
+                  <span class="volume-icon">🔊</span>
+                  <div class="volume-slider">
+                    <div class="volume-level"></div>
+                  </div>
+                </div>
+                <button class="fullscreen-btn" title="Полный экран">⛶</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="project-info">
           <div class="project-title">
@@ -641,9 +923,29 @@ const cases={
 
       <div class="project-item" onclick="showProject('mikhail')">
         <div class="project-video">
-          <video autoplay muted loop playsinline>
-            <source src="videos/mikhail-grebenyuk.mp4" type="video/mp4">
-          </video>
+          <div class="video-container">
+            <video>
+              <source src="videos/mikhail-grebenyuk.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+              <div class="control-buttons">
+                <button class="play-btn">▶️ Воспроизвести</button>
+                <div class="time-controls">
+                  <div class="time-display">0:00 / 0:00</div>
+                  <div class="progress-bar">
+                    <div class="progress"></div>
+                  </div>
+                </div>
+                <div class="volume-control">
+                  <span class="volume-icon">🔊</span>
+                  <div class="volume-slider">
+                    <div class="volume-level"></div>
+                  </div>
+                </div>
+                <button class="fullscreen-btn" title="Полный экран">⛶</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="project-info">
           <div class="project-title">
@@ -673,9 +975,29 @@ const cases={
 
       <div class="project-item" onclick="showProject('leads')">
         <div class="project-video">
-          <video autoplay muted loop playsinline>
-            <source src="videos/leads.mp4" type="video/mp4">
-          </video>
+          <div class="video-container">
+            <video>
+              <source src="videos/leads.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+              <div class="control-buttons">
+                <button class="play-btn">▶️ Воспроизвести</button>
+                <div class="time-controls">
+                  <div class="time-display">0:00 / 0:00</div>
+                  <div class="progress-bar">
+                    <div class="progress"></div>
+                  </div>
+                </div>
+                <div class="volume-control">
+                  <span class="volume-icon">🔊</span>
+                  <div class="volume-slider">
+                    <div class="volume-level"></div>
+                  </div>
+                </div>
+                <button class="fullscreen-btn" title="Полный экран">⛶</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="project-info">
           <div class="project-title">
@@ -705,9 +1027,29 @@ const cases={
 
       <div class="project-item" onclick="showProject('simon')">
         <div class="project-video">
-          <video autoplay muted loop playsinline>
-            <source src="videos/simon.mp4" type="video/mp4">
-          </video>
+          <div class="video-container">
+            <video>
+              <source src="videos/simon.mp4" type="video/mp4">
+            </video>
+            <div class="video-controls">
+              <div class="control-buttons">
+                <button class="play-btn">▶️ Воспроизвести</button>
+                <div class="time-controls">
+                  <div class="time-display">0:00 / 0:00</div>
+                  <div class="progress-bar">
+                    <div class="progress"></div>
+                  </div>
+                </div>
+                <div class="volume-control">
+                  <span class="volume-icon">🔊</span>
+                  <div class="volume-slider">
+                    <div class="volume-level"></div>
+                  </div>
+                </div>
+                <button class="fullscreen-btn" title="Полный экран">⛶</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="project-info">
           <div class="project-title">
@@ -739,9 +1081,29 @@ const cases={
     <div id="project-artem" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/artem-brius.mp4" type="video/mp4">
-        </video>
+        <div class="video-container">
+          <video>
+            <source src="videos/artem-brius.mp4" type="video/mp4">
+          </video>
+          <div class="video-controls">
+            <div class="control-buttons">
+              <button class="play-btn">▶️ Воспроизвести</button>
+              <div class="time-controls">
+                <div class="time-display">0:00 / 0:00</div>
+                <div class="progress-bar">
+                  <div class="progress"></div>
+                </div>
+              </div>
+              <div class="volume-control">
+                <span class="volume-icon">🔊</span>
+                <div class="volume-slider">
+                  <div class="volume-level"></div>
+                </div>
+              </div>
+              <button class="fullscreen-btn" title="Полный экран">⛶</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
@@ -772,9 +1134,29 @@ const cases={
     <div id="project-mikhail" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/mikhail-grebenyuk.mp4" type="video/mp4">
-        </video>
+        <div class="video-container">
+          <video>
+            <source src="videos/mikhail-grebenyuk.mp4" type="video/mp4">
+          </video>
+          <div class="video-controls">
+            <div class="control-buttons">
+              <button class="play-btn">▶️ Воспроизвести</button>
+              <div class="time-controls">
+                <div class="time-display">0:00 / 0:00</div>
+                <div class="progress-bar">
+                  <div class="progress"></div>
+                </div>
+              </div>
+              <div class="volume-control">
+                <span class="volume-icon">🔊</span>
+                <div class="volume-slider">
+                  <div class="volume-level"></div>
+                </div>
+              </div>
+              <button class="fullscreen-btn" title="Полный экран">⛶</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
@@ -805,9 +1187,29 @@ const cases={
     <div id="project-leads" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/leads.mp4" type="video/mp4">
-        </video>
+        <div class="video-container">
+          <video>
+            <source src="videos/leads.mp4" type="video/mp4">
+          </video>
+          <div class="video-controls">
+            <div class="control-buttons">
+              <button class="play-btn">▶️ Воспроизвести</button>
+              <div class="time-controls">
+                <div class="time-display">0:00 / 0:00</div>
+                <div class="progress-bar">
+                  <div class="progress"></div>
+                </div>
+              </div>
+              <div class="volume-control">
+                <span class="volume-icon">🔊</span>
+                <div class="volume-slider">
+                  <div class="volume-level"></div>
+                </div>
+              </div>
+              <button class="fullscreen-btn" title="Полный экран">⛶</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
@@ -838,9 +1240,29 @@ const cases={
     <div id="project-simon" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <video autoplay muted loop playsinline>
-          <source src="videos/simon.mp4" type="video/mp4">
-        </video>
+        <div class="video-container">
+          <video>
+            <source src="videos/simon.mp4" type="video/mp4">
+          </video>
+          <div class="video-controls">
+            <div class="control-buttons">
+              <button class="play-btn">▶️ Воспроизвести</button>
+              <div class="time-controls">
+                <div class="time-display">0:00 / 0:00</div>
+                <div class="progress-bar">
+                  <div class="progress"></div>
+                </div>
+              </div>
+              <div class="volume-control">
+                <span class="volume-icon">🔊</span>
+                <div class="volume-slider">
+                  <div class="volume-level"></div>
+                </div>
+              </div>
+              <button class="fullscreen-btn" title="Полный экран">⛶</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
@@ -872,7 +1294,7 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn">Назад</div>
+    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
   `,
   2:`
     <div class="case-header">
@@ -884,10 +1306,12 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-            Кейс по продюсированию<br>
-            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+        <div class="project-video">
+          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+              Кейс по продюсированию<br>
+              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+            </div>
           </div>
         </div>
         <div class="project-info">
@@ -911,7 +1335,7 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn">Назад</div>
+    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
   `,
   3:`
     <div class="case-header">
@@ -923,10 +1347,12 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-            Кейс с AI-видео<br>
-            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+        <div class="project-video">
+          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+              Кейс с AI-видео<br>
+              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+            </div>
           </div>
         </div>
         <div class="project-info">
@@ -950,7 +1376,7 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn">Назад</div>
+    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
   `,
   4:`
     <div class="case-header">
@@ -962,10 +1388,12 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-            Кейс AI-продукта<br>
-            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+        <div class="project-video">
+          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+              Кейс AI-продукта<br>
+              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+            </div>
           </div>
         </div>
         <div class="project-info">
@@ -989,7 +1417,7 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn">Назад</div>
+    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
   `,
   5:`
     <div class="case-header">
@@ -1001,10 +1429,12 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-            Кейс по Vibe coding<br>
-            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+        <div class="project-video">
+          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+              Кейс по Vibe coding<br>
+              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+            </div>
           </div>
         </div>
         <div class="project-info">
@@ -1028,7 +1458,7 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn">Назад</div>
+    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
   `
 };
 
@@ -1036,13 +1466,30 @@ document.querySelectorAll('.case-card').forEach(c=>{
   c.onclick=()=>{
     content.innerHTML=cases[c.dataset.case];
     overlay.classList.add('active');
+    
+    // Инициализировать видеоплееры после открытия кейса
+    setTimeout(() => {
+      content.querySelectorAll('video').forEach(video => {
+        if (video.closest('.video-container')) {
+          initVideoPlayer(video);
+        }
+      });
+    }, 100);
   }
 });
 
-overlay.onclick=e=>{if(e.target===overlay)overlay.classList.remove('active')};
-document.addEventListener('click',e=>{if(e.target.classList.contains('back-btn'))overlay.classList.remove('active')});
+overlay.onclick=e=>{
+  if(e.target===overlay){
+    overlay.classList.remove('active');
+  }
+};
+
+document.addEventListener('click',e=>{
+  if(e.target.classList.contains('back-btn')){
+    overlay.classList.remove('active');
+  }
+});
 </script>
 
 </body>
-
 </html>
