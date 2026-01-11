@@ -7,10 +7,10 @@
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-64XG5H6PPD"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-64XG5H6PPD');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-64XG5H6PPD');
 </script>
 
 <style>
@@ -129,24 +129,278 @@ button:hover{
   background:var(--dark);
 }
 
-.case-grid{
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  filter:blur(5px);
+  transition:all 2.4s cubic-bezier(.2,.6,0,1);
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:none;
+  filter:none;
+}
+
+.cases-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:40px;
   margin-top:56px;
 }
 
-.case{
-  padding:40px;
-  border:1px solid rgba(255,255,255,.06);
+.case-card{
+  padding:56px;
+  border:1px solid rgba(200,161,74,.35);
   background:rgba(255,255,255,.02);
   backdrop-filter:blur(10px);
-  transition:transform 1.4s cubic-bezier(.2,.6,0,1);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:16px;
+  text-align:center;
 }
 
-.case:hover{transform:translateY(-6px)}
+.case-card h3{
+  font-size:24px;
+  line-height:1.6;
+  min-height:96px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-.case h3{font-size:22px;margin-bottom:18px}
+.case-card span{
+  font-size:18px;
+  line-height:1.6;
+  color:var(--muted);
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  white-space:normal;
+}
+
+.case-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(12px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:200;
+}
+
+.case-overlay.active{display:flex}
+
+.case-open{
+  width:84vw;
+  max-width:1100px;
+  max-height:80vh;
+  overflow-y:auto;
+  background:var(--dark);
+  padding:72px;
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;
+  flex-direction:column;
+  gap:48px;
+}
+
+.case-header{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.case-title{
+  font-size:32px;
+  font-weight:500;
+  letter-spacing:-0.02em;
+}
+
+.case-description{
+  font-size:16px;
+  line-height:1.7;
+  color:var(--muted);
+  max-width:600px;
+}
+
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:40px;
+}
+
+.project-item{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  cursor:pointer;
+  transition:transform 0.3s ease;
+}
+
+.project-item:hover{
+  transform:translateY(-5px);
+}
+
+.project-video{
+  width:100%;
+  height:280px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  overflow:hidden;
+}
+
+.project-video video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.project-info{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.project-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.project-title h4{
+  font-size:18px;
+  font-weight:500;
+}
+
+.project-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  border-radius:4px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--white);
+}
+
+.instagram-badge{
+  background:rgba(228,64,95,0.1);
+  border:1px solid rgba(228,64,95,0.3);
+}
+
+.youtube-badge{
+  background:rgba(255,0,0,0.1);
+  border:1px solid rgba(255,0,0,0.3);
+}
+
+.tiktok-badge{
+  background:rgba(0,0,0,0.1);
+  border:1px solid rgba(0,0,0,0.3);
+}
+
+.badge-icon{
+  width:14px;
+  height:14px;
+  display:inline-block;
+}
+
+.project-stats{
+  display:flex;
+  gap:20px;
+  margin-top:8px;
+}
+
+.project-stat{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.project-value{
+  font-size:16px;
+  color:var(--gold);
+  font-weight:500;
+}
+
+.project-label{
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:0.05em;
+}
+
+.project-description{
+  font-size:14px;
+  line-height:1.6;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.project-detail{
+  display:none;
+  flex-direction:column;
+  gap:40px;
+}
+
+.project-detail.active{
+  display:flex;
+}
+
+.project-main-video{
+  width:100%;
+  height:400px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  overflow:hidden;
+}
+
+.project-main-video video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.project-detail-info{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.project-back{
+  font-size:12px;
+  letter-spacing:.2em;
+  color:var(--muted);
+  cursor:pointer;
+  align-self:flex-start;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.case-cta{
+  display:flex;
+  gap:28px;
+  margin-top:16px;
+}
+
+.case-cta a{text-decoration:none}
+
+.back-btn{
+  font-size:12px;
+  letter-spacing:.2em;
+  color:var(--muted);
+  cursor:pointer;
+  align-self:flex-start;
+  margin-top:24px;
+}
 
 .pricing{
   display:grid;
@@ -186,19 +440,6 @@ footer{
   color:var(--muted);
 }
 
-.reveal{
-  opacity:0;
-  transform:translateY(40px);
-  filter:blur(5px);
-  transition:all 2.4s cubic-bezier(.2,.6,0,1);
-}
-
-.reveal.visible{
-  opacity:1;
-  transform:none;
-  filter:none;
-}
-
 .contact-links{
   display:flex;
   flex-direction:column;
@@ -216,6 +457,12 @@ footer{
 @media(max-width:768px){
   nav{display:none}
   section{padding:120px 6vw}
+  .case-open{padding:40px;gap:32px;}
+  .case-header{gap:16px;}
+  .projects-grid{grid-template-columns:1fr;}
+  .case-cta{flex-direction:column;}
+  .project-stats{flex-wrap:wrap;}
+  .project-main-video{height:300px;}
 }
 </style>
 </head>
@@ -257,49 +504,61 @@ footer{
 
 <section id="cases" class="cases">
   <h2 class="reveal">Кейсы</h2>
-  <div class="case-grid">
-    <div class="case reveal">
-      <h3>Премиальное AI-портфолио</h3>
-      <p>Одностраничный сайт для эксперта, который чётко формирует образ.</p>
+  <div class="cases-grid reveal">
+    <div class="case-card" data-case="1">
+      <h3>Монтаж</h3>
+      <span>Рост удержания и доверия</span>
     </div>
-    <div class="case reveal">
-      <h3>Digital-образ бренда</h3>
-      <p>Сдержанный визуальный стиль и продуманная структура.</p>
+    <div class="case-card" data-case="2">
+      <h3>Продюсирование</h3>
+      <span>Контент как система</span>
     </div>
-    <div class="case reveal">
-      <h3>Продюсерский лендинг</h3>
-      <p>Последовательный путь от интереса к действию.</p>
+    <div class="case-card" data-case="3">
+      <h3>AI-видео</h3>
+      <span>Усиление без потери вкуса</span>
+    </div>
+    <div class="case-card" data-case="4">
+      <h3>AI-продукты</h3>
+      <span>Функция и логика</span>
+    </div>
+    <div class="case-card" data-case="5">
+      <h3>Vibe coding</h3>
+      <span>Интерфейсы с характером</span>
     </div>
   </div>
 </section>
 
+<div class="case-overlay" id="caseOverlay">
+  <div class="case-open" id="caseContent"></div>
+</div>
+
 <section id="services" class="services">
   <h2 class="reveal">Услуги</h2>
-  <div class="pricing">
-    <div class="price reveal">
+  <div class="pricing reveal">
+    <div class="price">
       <h3>Монтаж видео (вертикальные форматы)</h3>
       <span>от 3 999 ₽</span>
       <p>Чистый ритм, точные акценты, фокус на удержание внимания.</p>
     </div>
-    <div class="price reveal">
+    <div class="price">
       <h3>Продюсирование</h3>
       <span>от 5 999 ₽</span>
-      <p>Контроль идеи, формы и подачи. Контент как система.</p>
+      <p>Контроль идеи, формы и подачи.</p>
     </div>
-    <div class="price reveal">
+    <div class="price">
       <h3>Продюсирование с AI-видео</h3>
       <span>от 8 999 ₽</span>
-      <p>AI как инструмент усиления, а не замены вкуса.</p>
+      <p>AI как инструмент усиления.</p>
     </div>
-    <div class="price reveal">
+    <div class="price">
       <h3>Создание AI-продукта</h3>
       <span>от 7 999 ₽</span>
-      <p>Решения под конкретную задачу и продукт.</p>
+      <p>Решения под конкретную задачу.</p>
     </div>
-    <div class="price reveal">
+    <div class="price">
       <h3>Vibe coding</h3>
       <span>от 24 999 ₽</span>
-      <p>Интерфейсы с характером, ритмом и вниманием к деталям.</p>
+      <p>Интерфейсы с вниманием к деталям.</p>
     </div>
   </div>
 </section>
@@ -315,20 +574,473 @@ footer{
   </div>
 </section>
 
-<footer>
-© Aleksey Taranukha
-</footer>
+<footer>© Aleksey Taranukha</footer>
 
 <script>
-const observer=new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-    }
-  });
-},{threshold:0.15});
-
+const observer=new IntersectionObserver(e=>{
+  e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible')})
+},{threshold:.15});
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const overlay=document.getElementById('caseOverlay');
+const content=document.getElementById('caseContent');
+
+function showProject(projectId) {
+    const parent = document.querySelector('.case-open');
+    parent.querySelector('.projects-grid').style.display = 'none';
+    parent.querySelector(`#project-${projectId}`).style.display = 'flex';
+}
+
+function backToProjects() {
+    const parent = document.querySelector('.case-open');
+    parent.querySelectorAll('.project-detail').forEach(project => project.style.display = 'none');
+    parent.querySelector('.projects-grid').style.display = 'grid';
+}
+
+const cases={
+  1:`
+    <div class="case-header">
+      <div class="case-title">Монтаж</div>
+      <div class="case-description">
+        Специализация на монтаже вертикальных видео для социальных сетей. Работаю с форматами Reels, Shorts, TikTok, создавая контент, который удерживает внимание и повышает вовлечённость аудитории.
+      </div>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="project-item" onclick="showProject('artem')">
+        <div class="project-video">
+          <video autoplay muted loop playsinline>
+            <source src="Артём Бриус.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Артём Бриус</h4>
+            <span class="project-badge instagram-badge">
+              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              REELS
+            </span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">1.1M</div>
+              <div class="project-label">подписчиков</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-value">Instagram</div>
+              <div class="project-label">платформа</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Монтаж Reels для блогера с аудиторией 1.1 млн подписчиков
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item" onclick="showProject('mikhail')">
+        <div class="project-video">
+          <video autoplay muted loop playsinline>
+            <source src="Михаил гребенюк.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Михаил Гребенюк</h4>
+            <span class="project-badge instagram-badge">
+              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              REELS
+            </span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">700K</div>
+              <div class="project-label">подписчиков</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-value">Instagram</div>
+              <div class="project-label">платформа</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Монтаж Reels для эксперта с аудиторией 700 тысяч
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item" onclick="showProject('leads')">
+        <div class="project-video">
+          <video autoplay muted loop playsinline>
+            <source src="LEADS.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>LEADS</h4>
+            <span class="project-badge youtube-badge">
+              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+              </svg>
+              SHORTS
+            </span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">2K+</div>
+              <div class="project-label">подписчиков</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-value">YouTube</div>
+              <div class="project-label">платформа</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Монтаж YouTube Shorts для образовательного проекта
+          </div>
+        </div>
+      </div>
+
+      <div class="project-item" onclick="showProject('simon')">
+        <div class="project-video">
+          <video autoplay muted loop playsinline>
+            <source src="SIMON.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>SIMON</h4>
+            <span class="project-badge tiktok-badge">
+              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+              </svg>
+              TIKTOK
+            </span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">12K</div>
+              <div class="project-label">в Telegram</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-value">Адаптация</div>
+              <div class="project-label">TG → TikTok</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Адаптация контента из Telegram в TikTok
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="project-artem" class="project-detail">
+      <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
+      <div class="project-main-video">
+        <video autoplay muted loop playsinline>
+          <source src="Артём Бриус.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="project-detail-info">
+        <div class="project-title">
+          <h4>Артём Бриус</h4>
+          <span class="project-badge instagram-badge">
+            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            REELS
+          </span>
+        </div>
+        <div class="project-stats">
+          <div class="project-stat">
+            <div class="project-value">1.1M</div>
+            <div class="project-label">подписчиков</div>
+          </div>
+          <div class="project-stat">
+            <div class="project-value">Instagram</div>
+            <div class="project-label">платформа</div>
+          </div>
+        </div>
+        <div class="project-description">
+          Монтаж Reels для блогера с аудиторией более 1 миллиона подписчиков. Работа над удержанием внимания и повышением вовлечённости через динамичный ритм и точные акценты.
+        </div>
+      </div>
+    </div>
+
+    <div id="project-mikhail" class="project-detail">
+      <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
+      <div class="project-main-video">
+        <video autoplay muted loop playsinline>
+          <source src="Михаил гребенюк.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="project-detail-info">
+        <div class="project-title">
+          <h4>Михаил Гребенюк</h4>
+          <span class="project-badge instagram-badge">
+            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            REELS
+          </span>
+        </div>
+        <div class="project-stats">
+          <div class="project-stat">
+            <div class="project-value">700K</div>
+            <div class="project-label">подписчиков</div>
+          </div>
+          <div class="project-stat">
+            <div class="project-value">Instagram</div>
+            <div class="project-label">платформа</div>
+          </div>
+        </div>
+        <div class="project-description">
+          Производство Reels-контента для эксперта с аудиторией 700 тысяч подписчиков. Акцент на смысловую нагрузку при сохранении вирусного формата и высокого retention.
+        </div>
+      </div>
+    </div>
+
+    <div id="project-leads" class="project-detail">
+      <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
+      <div class="project-main-video">
+        <video autoplay muted loop playsinline>
+          <source src="LEADS.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="project-detail-info">
+        <div class="project-title">
+          <h4>LEADS</h4>
+          <span class="project-badge youtube-badge">
+            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+            </svg>
+            SHORTS
+          </span>
+        </div>
+        <div class="project-stats">
+          <div class="project-stat">
+            <div class="project-value">2K+</div>
+            <div class="project-label">подписчиков</div>
+          </div>
+          <div class="project-stat">
+            <div class="project-value">YouTube</div>
+            <div class="project-label">платформа</div>
+          </div>
+        </div>
+        <div class="project-description">
+          Монтаж YouTube Shorts для образовательного проекта. Форматирование контента под вертикальный просмотр с сохранением информационной ценности и добавлением динамичных элементов для удержания аудитории.
+        </div>
+      </div>
+    </div>
+
+    <div id="project-simon" class="project-detail">
+      <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
+      <div class="project-main-video">
+        <video autoplay muted loop playsinline>
+          <source src="SIMON.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="project-detail-info">
+        <div class="project-title">
+          <h4>SIMON</h4>
+          <span class="project-badge tiktok-badge">
+            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+            </svg>
+            TIKTOK
+          </span>
+        </div>
+        <div class="project-stats">
+          <div class="project-stat">
+            <div class="project-value">12K</div>
+            <div class="project-label">в Telegram</div>
+          </div>
+          <div class="project-stat">
+            <div class="project-value">Адаптация</div>
+            <div class="project-label">TG → TikTok</div>
+          </div>
+        </div>
+        <div class="project-description">
+          Адаптация контента из Telegram-канала (12 тысяч подписчиков) в формат TikTok. Сохранение уникального стиля и смысловых акцентов при переходе на более динамичную и визуальную платформу.
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta">
+      <a href="#services"><button>Заказать услугу</button></a>
+      <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
+    </div>
+    <div class="back-btn">Назад</div>
+  `,
+  2:`
+    <div class="case-header">
+      <div class="case-title">Продюсирование</div>
+      <div class="case-description">
+        Полный цикл продюсирования контента: от идеи до реализации. Работаю над созданием системного подхода к контенту, где каждый элемент работает на общую стратегию.
+      </div>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="project-item">
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Кейс по продюсированию<br>
+            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Пример продюсирования</h4>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">Скоро</div>
+              <div class="project-label">добавим</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Примеры проектов по продюсированию будут добавлены в ближайшее время
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta">
+      <a href="#services"><button>Заказать услугу</button></a>
+      <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
+    </div>
+    <div class="back-btn">Назад</div>
+  `,
+  3:`
+    <div class="case-header">
+      <div class="case-title">AI-видео</div>
+      <div class="case-description">
+        Интеграция AI-инструментов в процесс создания видео. Использую нейросети для генерации идей, создания визуальных элементов, оптимизации workflow.
+      </div>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="project-item">
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Кейс с AI-видео<br>
+            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Пример AI-видео</h4>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">Скоро</div>
+              <div class="project-label">добавим</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Примеры проектов с использованием AI-видео будут добавлены в ближайшее время
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta">
+      <a href="#services"><button>Заказать услугу</button></a>
+      <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
+    </div>
+    <div class="back-btn">Назад</div>
+  `,
+  4:`
+    <div class="case-header">
+      <div class="case-title">AI-продукты</div>
+      <div class="case-description">
+        Разработка AI-продуктов и интеграций, которые решают конкретные бизнес-задачи. От чат-ботов и автоматизации процессов до аналитических систем.
+      </div>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="project-item">
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Кейс AI-продукта<br>
+            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Пример AI-продукта</h4>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">Скоро</div>
+              <div class="project-label">добавим</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Примеры AI-продуктов будут добавлены в ближайшее время
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta">
+      <a href="#services"><button>Заказать услугу</button></a>
+      <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
+    </div>
+    <div class="back-btn">Назад</div>
+  `,
+  5:`
+    <div class="case-header">
+      <div class="case-title">Vibe coding</div>
+      <div class="case-description">
+        Разработка интерфейсов, где каждая деталь — анимация, переход, типографика — работает на общее впечатление. Интерфейсы, которые запоминаются и вызывают эмоции.
+      </div>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="project-item">
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Кейс по Vibe coding<br>
+            <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Пример интерфейса</h4>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">Скоро</div>
+              <div class="project-label">добавим</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Примеры интерфейсов будут добавлены в ближайшее время
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta">
+      <a href="#services"><button>Заказать услугу</button></a>
+      <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
+    </div>
+    <div class="back-btn">Назад</div>
+  `
+};
+
+document.querySelectorAll('.case-card').forEach(c=>{
+  c.onclick=()=>{
+    content.innerHTML=cases[c.dataset.case];
+    overlay.classList.add('active');
+  }
+});
+
+overlay.onclick=e=>{if(e.target===overlay)overlay.classList.remove('active')};
+document.addEventListener('click',e=>{if(e.target.classList.contains('back-btn'))overlay.classList.remove('active')});
 </script>
 
 </body>
