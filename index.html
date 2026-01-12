@@ -294,17 +294,39 @@ button:hover{
 .youtube-video-container{
   position:relative;
   width:100%;
-  height:0;
-  padding-bottom:177.78%; /* 16:9 aspect ratio */
+  height:400px;
+  background:#000;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .youtube-video-container iframe{
-  position:absolute;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   border:none;
+  display:block;
+}
+
+/* Для вертикальных видео (Shorts) */
+.youtube-shorts-container{
+  position:relative;
+  width:100%;
+  height:400px;
+  background:#000;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.youtube-shorts-container iframe{
+  width:auto;
+  height:100%;
+  max-width:100%;
+  border:none;
+  display:block;
 }
 
 .project-main-video{
@@ -609,6 +631,8 @@ footer{
   .case-cta{flex-direction:column;}
   .project-stats{flex-wrap:wrap;}
   .project-main-video{height:300px;}
+  .youtube-video-container{height:300px;}
+  .youtube-shorts-container{height:300px;}
   .price{
     padding:32px;
   }
@@ -616,6 +640,11 @@ footer{
     min-height:auto;
     margin-bottom:12px;
   }
+}
+
+@media(max-width:480px){
+  .youtube-video-container{height:250px;}
+  .youtube-shorts-container{height:250px;}
 }
 </style>
 </head>
@@ -877,7 +906,7 @@ const cases = {
         <div class="project-info">
           <div class="project-title">
             <h4>Артём Бриус</h4>
-            <span class="project-badge youtube-badge">SHORTS</span>
+            <span class="project-badge instagram-badge">REELS</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -885,12 +914,12 @@ const cases = {
               <div class="project-label">подписчиков</div>
             </div>
             <div class="project-stat">
-              <div class="project-value">YouTube</div>
+              <div class="project-value">Instagram</div>
               <div class="project-label">платформа</div>
             </div>
           </div>
           <div class="project-description">
-            Монтаж YouTube Shorts для блогера с аудиторией 1.1 млн подписчиков
+            Монтаж Reels для блогера с аудиторией 1.1 млн подписчиков
           </div>
         </div>
       </div>
@@ -907,7 +936,7 @@ const cases = {
         <div class="project-info">
           <div class="project-title">
             <h4>Михаил Гребенюк</h4>
-            <span class="project-badge youtube-badge">SHORTS</span>
+            <span class="project-badge instagram-badge">REELS</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -915,12 +944,12 @@ const cases = {
               <div class="project-label">подписчиков</div>
             </div>
             <div class="project-stat">
-              <div class="project-value">YouTube</div>
+              <div class="project-value">Instagram</div>
               <div class="project-label">платформа</div>
             </div>
           </div>
           <div class="project-description">
-            Монтаж YouTube Shorts для эксперта с аудиторией 700 тысяч
+            Монтаж Reels для эксперта с аудиторией 700 тысяч
           </div>
         </div>
       </div>
@@ -967,7 +996,7 @@ const cases = {
         <div class="project-info">
           <div class="project-title">
             <h4>SIMON</h4>
-            <span class="project-badge youtube-badge">SHORTS</span>
+            <span class="project-badge tiktok-badge">TIKTOK</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -976,11 +1005,11 @@ const cases = {
             </div>
             <div class="project-stat">
               <div class="project-value">Адаптация</div>
-              <div class="project-label">TG → YouTube</div>
+              <div class="project-label">TG → TikTok</div>
             </div>
           </div>
           <div class="project-description">
-            Адаптация контента из Telegram в YouTube Shorts
+            Адаптация контента из Telegram в TikTok
           </div>
         </div>
       </div>
@@ -989,9 +1018,9 @@ const cases = {
     <div id="project-artem" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="youtube-video-container">
+        <div class="youtube-shorts-container">
           <iframe src="https://www.youtube.com/embed/oI-8pTiEdHg?rel=0&modestbranding=1" 
-                  title="Артём Бриус - YouTube Shorts" 
+                  title="Артём Бриус - Instagram Reels" 
                   frameborder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen>
@@ -1001,7 +1030,7 @@ const cases = {
       <div class="project-detail-info">
         <div class="project-title">
           <h4>Артём Бриус</h4>
-          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
+          <span class="project-badge instagram-badge">INSTAGRAM REELS</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1009,12 +1038,12 @@ const cases = {
             <div class="project-label">подписчиков</div>
           </div>
           <div class="project-stat">
-            <div class="project-value">YouTube</div>
+            <div class="project-value">Instagram</div>
             <div class="project-label">платформа</div>
           </div>
         </div>
         <div class="project-description">
-          Монтаж YouTube Shorts для блогера с аудиторией более 1 миллиона подписчиков. Работа над удержанием внимания и повышением вовлечённости через динамичный ритм и точные акценты. Видео оптимизировано под вертикальный просмотр с сохранением информационной ценности.
+          Монтаж Instagram Reels для блогера с аудиторией более 1 миллиона подписчиков. Работа над удержанием внимания и повышением вовлечённости через динамичный ритм и точные акценты. Видео оптимизировано под вертикальный просмотр с сохранением информационной ценности.
         </div>
       </div>
     </div>
@@ -1022,9 +1051,9 @@ const cases = {
     <div id="project-mikhail" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="youtube-video-container">
+        <div class="youtube-shorts-container">
           <iframe src="https://www.youtube.com/embed/EBNgMgWv2sA?rel=0&modestbranding=1" 
-                  title="Михаил Гребенюк - YouTube Shorts" 
+                  title="Михаил Гребенюк - Instagram Reels" 
                   frameborder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen>
@@ -1034,7 +1063,7 @@ const cases = {
       <div class="project-detail-info">
         <div class="project-title">
           <h4>Михаил Гребенюк</h4>
-          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
+          <span class="project-badge instagram-badge">INSTAGRAM REELS</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1042,12 +1071,12 @@ const cases = {
             <div class="project-label">подписчиков</div>
           </div>
           <div class="project-stat">
-            <div class="project-value">YouTube</div>
+            <div class="project-value">Instagram</div>
             <div class="project-label">платформа</div>
           </div>
         </div>
         <div class="project-description">
-          Производство YouTube Shorts для эксперта с аудиторией 700 тысяч подписчиков. Акцент на смысловую нагрузку при сохранении вирусного формата и высокого retention. Использованы динамичные переходы и текстовые акценты для улучшения восприятия контента.
+          Производство Instagram Reels для эксперта с аудиторией 700 тысяч подписчиков. Акцент на смысловую нагрузку при сохранении вирусного формата и высокого retention. Использованы динамичные переходы и текстовые акценты для улучшения восприятия контента.
         </div>
       </div>
     </div>
@@ -1055,7 +1084,7 @@ const cases = {
     <div id="project-leads" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="youtube-video-container">
+        <div class="youtube-shorts-container">
           <iframe src="https://www.youtube.com/embed/rcQr2Zd0og8?rel=0&modestbranding=1" 
                   title="LEADS - YouTube Shorts" 
                   frameborder="0" 
@@ -1088,9 +1117,9 @@ const cases = {
     <div id="project-simon" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="youtube-video-container">
+        <div class="youtube-shorts-container">
           <iframe src="https://www.youtube.com/embed/N7m2YKSSTEk?rel=0&modestbranding=1" 
-                  title="SIMON - YouTube Shorts" 
+                  title="SIMON - TikTok" 
                   frameborder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                   allowfullscreen>
@@ -1100,7 +1129,7 @@ const cases = {
       <div class="project-detail-info">
         <div class="project-title">
           <h4>SIMON</h4>
-          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
+          <span class="project-badge tiktok-badge">TIKTOK</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1109,11 +1138,11 @@ const cases = {
           </div>
           <div class="project-stat">
             <div class="project-value">Адаптация</div>
-            <div class="project-label">TG → YouTube</div>
+            <div class="project-label">TG → TikTok</div>
           </div>
         </div>
         <div class="project-description">
-          Адаптация контента из Telegram-канала (12 тысяч подписчиков) в формат YouTube Shorts. Сохранение уникального стиля и смысловых акцентов при переходе на видеоплатформу. Добавлены визуальные элементы и динамичный монтаж для привлечения новой аудитории.
+          Адаптация контента из Telegram-канала (12 тысяч подписчиков) в формат TikTok. Сохранение уникального стиля и смысловых акцентов при переходе на видеоплатформу. Добавлены визуальные элементы и динамичный монтаж для привлечения новой аудитории.
         </div>
       </div>
     </div>
@@ -1167,7 +1196,7 @@ const cases = {
     <div id="project-vibe" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="youtube-video-container">
+        <div class="youtube-shorts-container">
           <!-- Здесь можешь вставить видео демонстрации сайта, если есть -->
           <iframe src="https://www.youtube.com/embed/BigBuckBunny?rel=0&modestbranding=1" 
                   title="Vibe Coding Демо" 
@@ -1384,4 +1413,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
