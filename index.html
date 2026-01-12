@@ -500,6 +500,7 @@ button:hover{
   flex-direction:column;
   position:relative;
   transition:all 0.3s ease;
+  height:100%;
 }
 
 .price:hover{
@@ -511,8 +512,8 @@ button:hover{
 .price h3{
   font-size:24px;
   margin-bottom:16px;
-  min-height:96px;
   line-height:1.4;
+  flex-grow:0;
 }
 
 .price span{
@@ -523,6 +524,15 @@ button:hover{
   color:var(--gold);
   margin-bottom:24px;
   font-weight:600;
+  flex-grow:0;
+}
+
+.price p{
+  font-size:16px;
+  line-height:1.6;
+  color:var(--muted);
+  margin-bottom:24px;
+  flex-grow:1;
 }
 
 .price-badge{
@@ -550,7 +560,8 @@ button:hover{
 }
 
 .price-features{
-  margin-top:24px;
+  margin-top:auto;
+  margin-bottom:24px;
   padding-top:24px;
   border-top:1px solid rgba(200,161,74,.2);
 }
@@ -566,6 +577,7 @@ button:hover{
 .price-features-list{
   list-style:none;
   padding:0;
+  margin-bottom:0;
 }
 
 .price-features-list li{
@@ -585,7 +597,7 @@ button:hover{
 }
 
 .price-cta{
-  margin-top:32px;
+  margin-top:auto;
   padding-top:24px;
   border-top:1px solid rgba(255,255,255,0.05);
 }
@@ -594,6 +606,15 @@ button:hover{
   width:100%;
   text-align:center;
   justify-content:center;
+}
+
+.price-vibe .price-cta button{
+  background:rgba(200,161,74,0.1);
+}
+
+.price-vibe .price-cta button:hover{
+  background:var(--gold);
+  color:#000;
 }
 
 footer{
@@ -635,6 +656,7 @@ footer{
   .youtube-shorts-container{height:300px;}
   .price{
     padding:32px;
+    height:auto;
   }
   .price h3{
     min-height:auto;
