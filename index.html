@@ -5,14 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aleksey Taranukha — AI & Digital Production</title>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-64XG5H6PPD"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-64XG5H6PPD');
-</script>
-
 <style>
 :root{
   --black:#0b0b0b;
@@ -161,6 +153,12 @@ button:hover{
   align-items:center;
   gap:16px;
   text-align:center;
+  transition:all 0.3s ease;
+}
+
+.case-card:hover{
+  background:rgba(255,255,255,.04);
+  border-color:var(--gold);
 }
 
 .case-card h3{
@@ -252,140 +250,70 @@ button:hover{
   background:rgba(255,255,255,.03);
   border:1px solid rgba(255,255,255,.05);
   overflow:hidden;
-}
-
-.video-container{
   position:relative;
-  width:100%;
-  height:100%;
-  overflow:hidden;
+  cursor:pointer;
 }
 
-.video-container video{
+.video-thumbnail{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
 }
 
-.video-controls{
+.play-overlay{
   position:absolute;
-  bottom:0;
+  top:0;
   left:0;
-  right:0;
-  background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  padding:20px;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.4);
   display:flex;
-  flex-direction:column;
-  gap:10px;
+  align-items:center;
+  justify-content:center;
   opacity:0;
   transition:opacity 0.3s ease;
 }
 
-.video-container:hover .video-controls{
+.play-overlay:hover{
   opacity:1;
 }
 
-.control-buttons{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.play-btn{
-  background:none;
-  border:none;
+.play-icon{
+  font-size:48px;
   color:var(--white);
-  font-size:14px;
-  cursor:pointer;
+  background:rgba(0,0,0,0.7);
+  width:80px;
+  height:80px;
+  border-radius:50%;
   display:flex;
   align-items:center;
-  gap:5px;
-  padding:5px 10px;
-  border-radius:4px;
-  transition:background 0.2s ease;
+  justify-content:center;
 }
 
-.play-btn:hover{
-  background:rgba(255,255,255,0.1);
-}
-
-.time-controls{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex:1;
-}
-
-.time-display{
-  font-size:12px;
-  color:var(--white);
-  min-width:100px;
-}
-
-.progress-bar{
-  flex:1;
-  height:4px;
-  background:rgba(255,255,255,0.2);
-  border-radius:2px;
-  cursor:pointer;
+.youtube-video-container{
   position:relative;
-  overflow:hidden;
-}
-
-.progress{
-  position:absolute;
-  left:0;
-  top:0;
-  height:100%;
-  background:var(--gold);
-  width:0%;
-  transition:width 0.1s linear;
-}
-
-.volume-control{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.volume-slider{
-  width:60px;
-  height:4px;
-  background:rgba(255,255,255,0.2);
-  border-radius:2px;
-  cursor:pointer;
-  position:relative;
-}
-
-.volume-level{
-  position:absolute;
-  left:0;
-  top:0;
-  height:100%;
-  background:var(--gold);
   width:100%;
+  height:0;
+  padding-bottom:177.78%; /* 16:9 aspect ratio */
 }
 
-.volume-icon{
-  color:var(--white);
-  font-size:14px;
-  cursor:pointer;
-}
-
-.fullscreen-btn{
-  background:none;
+.youtube-video-container iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
   border:none;
-  color:var(--white);
-  font-size:14px;
-  cursor:pointer;
-  padding:5px;
-  border-radius:4px;
-  transition:background 0.2s ease;
 }
 
-.fullscreen-btn:hover{
-  background:rgba(255,255,255,0.1);
+.project-main-video{
+  width:100%;
+  height:400px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  overflow:hidden;
+  position:relative;
 }
 
 .project-info{
@@ -432,6 +360,11 @@ button:hover{
 .tiktok-badge{
   background:rgba(0,0,0,0.1);
   border:1px solid rgba(0,0,0,0.3);
+}
+
+.vibe-badge{
+  background:rgba(200,161,74,0.1);
+  border:1px solid rgba(200,161,74,0.3);
 }
 
 .badge-icon{
@@ -481,28 +414,6 @@ button:hover{
   display:flex;
 }
 
-.project-main-video{
-  width:100%;
-  height:400px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.05);
-  overflow:hidden;
-}
-
-.project-main-video .video-container{
-  height:100%;
-}
-
-.project-main-video video{
-  object-fit:contain;
-}
-
-.project-detail-info{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
 .project-back{
   font-size:12px;
   letter-spacing:.2em;
@@ -513,12 +424,22 @@ button:hover{
   display:flex;
   align-items:center;
   gap:8px;
+  padding:8px 16px;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;
+  transition:all 0.3s ease;
+}
+
+.project-back:hover{
+  background:rgba(255,255,255,0.05);
+  border-color:var(--gold);
 }
 
 .case-cta{
   display:flex;
   gap:28px;
   margin-top:16px;
+  flex-wrap:wrap;
 }
 
 .case-cta a{text-decoration:none}
@@ -530,11 +451,20 @@ button:hover{
   cursor:pointer;
   align-self:flex-start;
   margin-top:24px;
+  padding:8px 16px;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;
+  transition:all 0.3s ease;
+}
+
+.back-btn:hover{
+  background:rgba(255,255,255,0.05);
+  border-color:var(--gold);
 }
 
 .pricing{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:40px;
   margin-top:56px;
 }
@@ -546,12 +476,21 @@ button:hover{
   backdrop-filter:blur(10px);
   display:flex;
   flex-direction:column;
+  position:relative;
+  transition:all 0.3s ease;
+}
+
+.price:hover{
+  background:rgba(255,255,255,.025);
+  border-color:var(--gold);
+  transform:translateY(-5px);
 }
 
 .price h3{
   font-size:24px;
   margin-bottom:16px;
   min-height:96px;
+  line-height:1.4;
 }
 
 .price span{
@@ -561,6 +500,78 @@ button:hover{
   text-transform:uppercase;
   color:var(--gold);
   margin-bottom:24px;
+  font-weight:600;
+}
+
+.price-badge{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:11px;
+  letter-spacing:.15em;
+  color:var(--gold);
+  padding:4px 12px;
+  border:1px solid var(--gold);
+  border-radius:20px;
+  background:rgba(200,161,74,0.1);
+}
+
+.price-vibe{
+  background:rgba(200,161,74,.03);
+  border-color:var(--gold);
+}
+
+.price-vibe .price-badge{
+  background:var(--gold);
+  color:var(--black);
+  font-weight:600;
+}
+
+.price-features{
+  margin-top:24px;
+  padding-top:24px;
+  border-top:1px solid rgba(200,161,74,.2);
+}
+
+.price-features-title{
+  font-size:13px;
+  color:var(--gold);
+  margin-bottom:12px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+}
+
+.price-features-list{
+  list-style:none;
+  padding:0;
+}
+
+.price-features-list li{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:8px;
+  padding-left:20px;
+  position:relative;
+}
+
+.price-features-list li:before{
+  content:"•";
+  color:var(--gold);
+  position:absolute;
+  left:0;
+}
+
+.price-cta{
+  margin-top:32px;
+  padding-top:24px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+
+.price-cta button{
+  width:100%;
+  text-align:center;
+  justify-content:center;
 }
 
 footer{
@@ -582,6 +593,11 @@ footer{
   text-decoration:none;
   font-size:14px;
   letter-spacing:.05em;
+  transition:color 0.3s ease;
+}
+
+.contact-links a:hover{
+  color:var(--gold);
 }
 
 @media(max-width:768px){
@@ -593,16 +609,12 @@ footer{
   .case-cta{flex-direction:column;}
   .project-stats{flex-wrap:wrap;}
   .project-main-video{height:300px;}
-  .video-controls{
-    padding:15px;
-    opacity:1;
+  .price{
+    padding:32px;
   }
-  .time-display{
-    min-width:80px;
-    font-size:11px;
-  }
-  .volume-slider{
-    width:40px;
+  .price h3{
+    min-height:auto;
+    margin-bottom:12px;
   }
 }
 </style>
@@ -677,29 +689,114 @@ footer{
   <h2 class="reveal">Услуги</h2>
   <div class="pricing reveal">
     <div class="price">
+      <span class="price-badge">Популярно</span>
       <h3>Монтаж видео (вертикальные форматы)</h3>
       <span>от 3 999 ₽</span>
-      <p>Чистый ритм, точные акценты, фокус на удержание внимания.</p>
+      <p>Чистый ритм, точные акценты, фокус на удержание внимания. Идеально для Reels, Shorts, TikTok.</p>
+      
+      <div class="price-features">
+        <div class="price-features-title">Что входит:</div>
+        <ul class="price-features-list">
+          <li>Монтаж до 1 минуты видео</li>
+          <li>Цветокоррекция и звук</li>
+          <li>Текстовые плашки и субтитры</li>
+          <li>Оптимизация под платформу</li>
+          <li>2 правки включено</li>
+        </ul>
+      </div>
+      
+      <div class="price-cta">
+        <button onclick="openTelegram()">Заказать</button>
+      </div>
     </div>
+    
     <div class="price">
       <h3>Продюсирование</h3>
       <span>от 5 999 ₽</span>
-      <p>Контроль идеи, формы и подачи.</p>
+      <p>Контроль идеи, формы и подачи. Создание контент-стратегии и единого стиля.</p>
+      
+      <div class="price-features">
+        <div class="price-features-title">Что входит:</div>
+        <ul class="price-features-list">
+          <li>Контент-стратегия на месяц</li>
+          <li>Сценарии 5 видео</li>
+          <li>Режиссура съёмок</li>
+          <li>Подбор локаций и ракурсов</li>
+          <li>Контроль финального результата</li>
+        </ul>
+      </div>
+      
+      <div class="price-cta">
+        <button onclick="openTelegram()">Заказать</button>
+      </div>
     </div>
+    
     <div class="price">
+      <span class="price-badge">AI</span>
       <h3>Продюсирование с AI-видео</h3>
       <span>от 8 999 ₽</span>
-      <p>AI как инструмент усиления.</p>
+      <p>AI как инструмент усиления. Генерация идей, создание визуала, оптимизация workflow.</p>
+      
+      <div class="price-features">
+        <div class="price-features-title">Что входит:</div>
+        <ul class="price-features-list">
+          <li>AI-генерация идей и сценариев</li>
+          <li>Создание AI-визуальных элементов</li>
+          <li>Озвучка нейросетями</li>
+          <li>Автоматизация процессов</li>
+          <li>Интеграция AI в workflow</li>
+        </ul>
+      </div>
+      
+      <div class="price-cta">
+        <button onclick="openTelegram()">Заказать</button>
+      </div>
     </div>
+    
     <div class="price">
+      <span class="price-badge">Продукт</span>
       <h3>Создание AI-продукта</h3>
       <span>от 7 999 ₽</span>
-      <p>Решения под конкретную задачу.</p>
+      <p>Решения под конкретную задачу. Чат-боты, автоматизация, аналитические системы.</p>
+      
+      <div class="price-features">
+        <div class="price-features-title">Что входит:</div>
+        <ul class="price-features-list">
+          <li>Анализ задачи и аудитории</li>
+          <li>Прототип AI-решения</li>
+          <li>Интеграция с платформами</li>
+          <li>Обучение модели под задачу</li>
+          <li>Техническая поддержка 1 месяц</li>
+        </ul>
+      </div>
+      
+      <div class="price-cta">
+        <button onclick="openTelegram()">Заказать</button>
+      </div>
     </div>
-    <div class="price">
-      <h3>Vibe coding</h3>
-      <span>от 24 999 ₽</span>
-      <p>Интерфейсы с вниманием к деталям.</p>
+    
+    <div class="price price-vibe">
+      <span class="price-badge">Кейс</span>
+      <h3>Vibe coding — этот сайт</h3>
+      <span>29 999 ₽</span>
+      <p>Интерфейсы с вниманием к деталям: анимации, плавные переходы, кастомные видеоплееры.</p>
+      
+      <div class="price-features">
+        <div class="price-features-title">Что входит:</div>
+        <ul class="price-features-list">
+          <li>Дизайн под ваш бренд</li>
+          <li>Адаптация под все устройства</li>
+          <li>Кастомные видеоплееры</li>
+          <li>Анимации и микроинтеракции</li>
+          <li>Оптимизация загрузки</li>
+          <li>Интеграция с соцсетями</li>
+          <li>Базовое SEO</li>
+        </ul>
+      </div>
+      
+      <div class="price-cta">
+        <button onclick="openTelegram()">Заказать такой сайт</button>
+      </div>
     </div>
   </div>
 </section>
@@ -718,149 +815,48 @@ footer{
 <footer>© Aleksey Taranukha</footer>
 
 <script>
-const observer=new IntersectionObserver(e=>{
-  e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible')})
-},{threshold:.15});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+// Smooth animations
+const observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
 
-const overlay=document.getElementById('caseOverlay');
-const content=document.getElementById('caseContent');
+document.querySelectorAll('.reveal').forEach(function(el) {
+  observer.observe(el);
+});
+
+// Case system
+const overlay = document.getElementById('caseOverlay');
+const content = document.getElementById('caseContent');
 
 function showProject(projectId) {
-    const parent = document.querySelector('.case-open');
-    parent.querySelector('.projects-grid').style.display = 'none';
-    parent.querySelector(`#project-${projectId}`).style.display = 'flex';
+  const parent = document.querySelector('.case-open');
+  const projectsGrid = parent.querySelector('.projects-grid');
+  const projectDetail = parent.querySelector('#project-' + projectId);
+  
+  if (projectsGrid) projectsGrid.style.display = 'none';
+  if (projectDetail) {
+    projectDetail.style.display = 'flex';
+  }
 }
 
 function backToProjects() {
-    const parent = document.querySelector('.case-open');
-    parent.querySelectorAll('.project-detail').forEach(project => project.style.display = 'none');
-    parent.querySelector('.projects-grid').style.display = 'grid';
+  const parent = document.querySelector('.case-open');
+  const projectsGrid = parent.querySelector('.projects-grid');
+  const projectDetails = parent.querySelectorAll('.project-detail');
+  
+  if (projectsGrid) projectsGrid.style.display = 'grid';
+  projectDetails.forEach(function(project) {
+    project.style.display = 'none';
+  });
 }
 
-// Функции для управления видео
-function initVideoPlayer(videoElement) {
-    const container = videoElement.closest('.video-container');
-    const playBtn = container.querySelector('.play-btn');
-    const progressBar = container.querySelector('.progress-bar');
-    const progress = container.querySelector('.progress');
-    const timeDisplay = container.querySelector('.time-display');
-    const volumeSlider = container.querySelector('.volume-slider');
-    const volumeLevel = container.querySelector('.volume-level');
-    const volumeIcon = container.querySelector('.volume-icon');
-    const fullscreenBtn = container.querySelector('.fullscreen-btn');
-    
-    // Убрать автозапуск
-    videoElement.autoplay = false;
-    videoElement.muted = false;
-    
-    // Форматирование времени
-    function formatTime(seconds) {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    }
-    
-    // Обновление времени
-    function updateTime() {
-        const currentTime = videoElement.currentTime;
-        const duration = videoElement.duration;
-        const progressPercent = (currentTime / duration) * 100;
-        progress.style.width = `${progressPercent}%`;
-        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
-    }
-    
-    // Обновление иконки воспроизведения
-    function updatePlayIcon() {
-        playBtn.innerHTML = videoElement.paused ? 
-            '▶️ Воспроизвести' : 
-            '⏸️ Пауза';
-    }
-    
-    // Обновление иконки громкости
-    function updateVolumeIcon() {
-        if (videoElement.muted || videoElement.volume === 0) {
-            volumeIcon.textContent = '🔇';
-        } else if (videoElement.volume < 0.5) {
-            volumeIcon.textContent = '🔉';
-        } else {
-            volumeIcon.textContent = '🔊';
-        }
-        volumeLevel.style.width = `${videoElement.volume * 100}%`;
-    }
-    
-    // Переключение воспроизведения
-    playBtn.addEventListener('click', () => {
-        if (videoElement.paused) {
-            videoElement.play();
-        } else {
-            videoElement.pause();
-        }
-        updatePlayIcon();
-    });
-    
-    // Клик по прогресс-бару
-    progressBar.addEventListener('click', (e) => {
-        const rect = progressBar.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        videoElement.currentTime = percent * videoElement.duration;
-    });
-    
-    // Управление громкостью
-    volumeSlider.addEventListener('click', (e) => {
-        const rect = volumeSlider.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        videoElement.volume = Math.max(0, Math.min(1, percent));
-        videoElement.muted = false;
-        updateVolumeIcon();
-    });
-    
-    // Переключение звука
-    volumeIcon.addEventListener('click', () => {
-        videoElement.muted = !videoElement.muted;
-        updateVolumeIcon();
-    });
-    
-    // Полноэкранный режим
-    fullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-            container.requestFullscreen().catch(err => {
-                console.log(`Ошибка при переходе в полноэкранный режим: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    });
-    
-    // События видео
-    videoElement.addEventListener('timeupdate', updateTime);
-    videoElement.addEventListener('play', updatePlayIcon);
-    videoElement.addEventListener('pause', updatePlayIcon);
-    videoElement.addEventListener('volumechange', updateVolumeIcon);
-    videoElement.addEventListener('loadedmetadata', () => {
-        updateTime();
-        updateVolumeIcon();
-    });
-    
-    // Инициализация
-    updatePlayIcon();
-    updateVolumeIcon();
-}
-
-// Инициализация всех видеоплееров после загрузки DOM
-document.addEventListener('DOMContentLoaded', () => {
-    // Ждем немного, чтобы все элементы точно были загружены
-    setTimeout(() => {
-        document.querySelectorAll('video').forEach(video => {
-            if (video.closest('.video-container')) {
-                initVideoPlayer(video);
-            }
-        });
-    }, 100);
-});
-
-const cases={
-  1:`
+// Cases content with YOUR YouTube videos
+const cases = {
+  1: `
     <div class="case-header">
       <div class="case-title">Монтаж</div>
       <div class="case-description">
@@ -871,39 +867,17 @@ const cases={
     <div class="projects-grid">
       <div class="project-item" onclick="showProject('artem')">
         <div class="project-video">
-          <div class="video-container">
-            <video>
-              <source src="videos/artem-brius.mp4" type="video/mp4">
-            </video>
-            <div class="video-controls">
-              <div class="control-buttons">
-                <button class="play-btn">▶️ Воспроизвести</button>
-                <div class="time-controls">
-                  <div class="time-display">0:00 / 0:00</div>
-                  <div class="progress-bar">
-                    <div class="progress"></div>
-                  </div>
-                </div>
-                <div class="volume-control">
-                  <span class="volume-icon">🔊</span>
-                  <div class="volume-slider">
-                    <div class="volume-level"></div>
-                  </div>
-                </div>
-                <button class="fullscreen-btn" title="Полный экран">⛶</button>
-              </div>
-            </div>
+          <img src="https://img.youtube.com/vi/oI-8pTiEdHg/maxresdefault.jpg" 
+               alt="Артём Бриус" 
+               class="video-thumbnail">
+          <div class="play-overlay">
+            <div class="play-icon">▶</div>
           </div>
         </div>
         <div class="project-info">
           <div class="project-title">
             <h4>Артём Бриус</h4>
-            <span class="project-badge instagram-badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              REELS
-            </span>
+            <span class="project-badge youtube-badge">SHORTS</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -911,51 +885,29 @@ const cases={
               <div class="project-label">подписчиков</div>
             </div>
             <div class="project-stat">
-              <div class="project-value">Instagram</div>
+              <div class="project-value">YouTube</div>
               <div class="project-label">платформа</div>
             </div>
           </div>
           <div class="project-description">
-            Монтаж Reels для блогера с аудиторией 1.1 млн подписчиков
+            Монтаж YouTube Shorts для блогера с аудиторией 1.1 млн подписчиков
           </div>
         </div>
       </div>
 
       <div class="project-item" onclick="showProject('mikhail')">
         <div class="project-video">
-          <div class="video-container">
-            <video>
-              <source src="videos/mikhail-grebenyuk.mp4" type="video/mp4">
-            </video>
-            <div class="video-controls">
-              <div class="control-buttons">
-                <button class="play-btn">▶️ Воспроизвести</button>
-                <div class="time-controls">
-                  <div class="time-display">0:00 / 0:00</div>
-                  <div class="progress-bar">
-                    <div class="progress"></div>
-                  </div>
-                </div>
-                <div class="volume-control">
-                  <span class="volume-icon">🔊</span>
-                  <div class="volume-slider">
-                    <div class="volume-level"></div>
-                  </div>
-                </div>
-                <button class="fullscreen-btn" title="Полный экран">⛶</button>
-              </div>
-            </div>
+          <img src="https://img.youtube.com/vi/EBNgMgWv2sA/maxresdefault.jpg" 
+               alt="Михаил Гребенюк" 
+               class="video-thumbnail">
+          <div class="play-overlay">
+            <div class="play-icon">▶</div>
           </div>
         </div>
         <div class="project-info">
           <div class="project-title">
             <h4>Михаил Гребенюк</h4>
-            <span class="project-badge instagram-badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-              REELS
-            </span>
+            <span class="project-badge youtube-badge">SHORTS</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -963,51 +915,29 @@ const cases={
               <div class="project-label">подписчиков</div>
             </div>
             <div class="project-stat">
-              <div class="project-value">Instagram</div>
+              <div class="project-value">YouTube</div>
               <div class="project-label">платформа</div>
             </div>
           </div>
           <div class="project-description">
-            Монтаж Reels для эксперта с аудиторией 700 тысяч
+            Монтаж YouTube Shorts для эксперта с аудиторией 700 тысяч
           </div>
         </div>
       </div>
 
       <div class="project-item" onclick="showProject('leads')">
         <div class="project-video">
-          <div class="video-container">
-            <video>
-              <source src="videos/leads.mp4" type="video/mp4">
-            </video>
-            <div class="video-controls">
-              <div class="control-buttons">
-                <button class="play-btn">▶️ Воспроизвести</button>
-                <div class="time-controls">
-                  <div class="time-display">0:00 / 0:00</div>
-                  <div class="progress-bar">
-                    <div class="progress"></div>
-                  </div>
-                </div>
-                <div class="volume-control">
-                  <span class="volume-icon">🔊</span>
-                  <div class="volume-slider">
-                    <div class="volume-level"></div>
-                  </div>
-                </div>
-                <button class="fullscreen-btn" title="Полный экран">⛶</button>
-              </div>
-            </div>
+          <img src="https://img.youtube.com/vi/rcQr2Zd0og8/maxresdefault.jpg" 
+               alt="LEADS" 
+               class="video-thumbnail">
+          <div class="play-overlay">
+            <div class="play-icon">▶</div>
           </div>
         </div>
         <div class="project-info">
           <div class="project-title">
             <h4>LEADS</h4>
-            <span class="project-badge youtube-badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-              </svg>
-              SHORTS
-            </span>
+            <span class="project-badge youtube-badge">SHORTS</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -1027,39 +957,17 @@ const cases={
 
       <div class="project-item" onclick="showProject('simon')">
         <div class="project-video">
-          <div class="video-container">
-            <video>
-              <source src="videos/simon.mp4" type="video/mp4">
-            </video>
-            <div class="video-controls">
-              <div class="control-buttons">
-                <button class="play-btn">▶️ Воспроизвести</button>
-                <div class="time-controls">
-                  <div class="time-display">0:00 / 0:00</div>
-                  <div class="progress-bar">
-                    <div class="progress"></div>
-                  </div>
-                </div>
-                <div class="volume-control">
-                  <span class="volume-icon">🔊</span>
-                  <div class="volume-slider">
-                    <div class="volume-level"></div>
-                  </div>
-                </div>
-                <button class="fullscreen-btn" title="Полный экран">⛶</button>
-              </div>
-            </div>
+          <img src="https://img.youtube.com/vi/N7m2YKSSTEk/maxresdefault.jpg" 
+               alt="SIMON" 
+               class="video-thumbnail">
+          <div class="play-overlay">
+            <div class="play-icon">▶</div>
           </div>
         </div>
         <div class="project-info">
           <div class="project-title">
             <h4>SIMON</h4>
-            <span class="project-badge tiktok-badge">
-              <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-              </svg>
-              TIKTOK
-            </span>
+            <span class="project-badge youtube-badge">SHORTS</span>
           </div>
           <div class="project-stats">
             <div class="project-stat">
@@ -1068,11 +976,11 @@ const cases={
             </div>
             <div class="project-stat">
               <div class="project-value">Адаптация</div>
-              <div class="project-label">TG → TikTok</div>
+              <div class="project-label">TG → YouTube</div>
             </div>
           </div>
           <div class="project-description">
-            Адаптация контента из Telegram в TikTok
+            Адаптация контента из Telegram в YouTube Shorts
           </div>
         </div>
       </div>
@@ -1081,39 +989,19 @@ const cases={
     <div id="project-artem" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="video-container">
-          <video>
-            <source src="videos/artem-brius.mp4" type="video/mp4">
-          </video>
-          <div class="video-controls">
-            <div class="control-buttons">
-              <button class="play-btn">▶️ Воспроизвести</button>
-              <div class="time-controls">
-                <div class="time-display">0:00 / 0:00</div>
-                <div class="progress-bar">
-                  <div class="progress"></div>
-                </div>
-              </div>
-              <div class="volume-control">
-                <span class="volume-icon">🔊</span>
-                <div class="volume-slider">
-                  <div class="volume-level"></div>
-                </div>
-              </div>
-              <button class="fullscreen-btn" title="Полный экран">⛶</button>
-            </div>
-          </div>
+        <div class="youtube-video-container">
+          <iframe src="https://www.youtube.com/embed/oI-8pTiEdHg?rel=0&modestbranding=1" 
+                  title="Артём Бриус - YouTube Shorts" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
         </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
           <h4>Артём Бриус</h4>
-          <span class="project-badge instagram-badge">
-            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-            REELS
-          </span>
+          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1121,12 +1009,12 @@ const cases={
             <div class="project-label">подписчиков</div>
           </div>
           <div class="project-stat">
-            <div class="project-value">Instagram</div>
+            <div class="project-value">YouTube</div>
             <div class="project-label">платформа</div>
           </div>
         </div>
         <div class="project-description">
-          Монтаж Reels для блогера с аудиторией более 1 миллиона подписчиков. Работа над удержанием внимания и повышением вовлечённости через динамичный ритм и точные акценты.
+          Монтаж YouTube Shorts для блогера с аудиторией более 1 миллиона подписчиков. Работа над удержанием внимания и повышением вовлечённости через динамичный ритм и точные акценты. Видео оптимизировано под вертикальный просмотр с сохранением информационной ценности.
         </div>
       </div>
     </div>
@@ -1134,39 +1022,19 @@ const cases={
     <div id="project-mikhail" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="video-container">
-          <video>
-            <source src="videos/mikhail-grebenyuk.mp4" type="video/mp4">
-          </video>
-          <div class="video-controls">
-            <div class="control-buttons">
-              <button class="play-btn">▶️ Воспроизвести</button>
-              <div class="time-controls">
-                <div class="time-display">0:00 / 0:00</div>
-                <div class="progress-bar">
-                  <div class="progress"></div>
-                </div>
-              </div>
-              <div class="volume-control">
-                <span class="volume-icon">🔊</span>
-                <div class="volume-slider">
-                  <div class="volume-level"></div>
-                </div>
-              </div>
-              <button class="fullscreen-btn" title="Полный экран">⛶</button>
-            </div>
-          </div>
+        <div class="youtube-video-container">
+          <iframe src="https://www.youtube.com/embed/EBNgMgWv2sA?rel=0&modestbranding=1" 
+                  title="Михаил Гребенюк - YouTube Shorts" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
         </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
           <h4>Михаил Гребенюк</h4>
-          <span class="project-badge instagram-badge">
-            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-            REELS
-          </span>
+          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1174,12 +1042,12 @@ const cases={
             <div class="project-label">подписчиков</div>
           </div>
           <div class="project-stat">
-            <div class="project-value">Instagram</div>
+            <div class="project-value">YouTube</div>
             <div class="project-label">платформа</div>
           </div>
         </div>
         <div class="project-description">
-          Производство Reels-контента для эксперта с аудиторией 700 тысяч подписчиков. Акцент на смысловую нагрузку при сохранении вирусного формата и высокого retention.
+          Производство YouTube Shorts для эксперта с аудиторией 700 тысяч подписчиков. Акцент на смысловую нагрузку при сохранении вирусного формата и высокого retention. Использованы динамичные переходы и текстовые акценты для улучшения восприятия контента.
         </div>
       </div>
     </div>
@@ -1187,39 +1055,19 @@ const cases={
     <div id="project-leads" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="video-container">
-          <video>
-            <source src="videos/leads.mp4" type="video/mp4">
-          </video>
-          <div class="video-controls">
-            <div class="control-buttons">
-              <button class="play-btn">▶️ Воспроизвести</button>
-              <div class="time-controls">
-                <div class="time-display">0:00 / 0:00</div>
-                <div class="progress-bar">
-                  <div class="progress"></div>
-                </div>
-              </div>
-              <div class="volume-control">
-                <span class="volume-icon">🔊</span>
-                <div class="volume-slider">
-                  <div class="volume-level"></div>
-                </div>
-              </div>
-              <button class="fullscreen-btn" title="Полный экран">⛶</button>
-            </div>
-          </div>
+        <div class="youtube-video-container">
+          <iframe src="https://www.youtube.com/embed/rcQr2Zd0og8?rel=0&modestbranding=1" 
+                  title="LEADS - YouTube Shorts" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
         </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
           <h4>LEADS</h4>
-          <span class="project-badge youtube-badge">
-            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-            </svg>
-            SHORTS
-          </span>
+          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1232,7 +1080,7 @@ const cases={
           </div>
         </div>
         <div class="project-description">
-          Монтаж YouTube Shorts для образовательного проекта. Форматирование контента под вертикальный просмотр с сохранением информационной ценности и добавлением динамичных элементов для удержания аудитории.
+          Монтаж YouTube Shorts для образовательного проекта. Форматирование контента под вертикальный просмотр с сохранением информационной ценности и добавлением динамичных элементов для удержания аудитории. Использованы субтитры и графические элементы для лучшего усвоения материала.
         </div>
       </div>
     </div>
@@ -1240,39 +1088,19 @@ const cases={
     <div id="project-simon" class="project-detail">
       <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
       <div class="project-main-video">
-        <div class="video-container">
-          <video>
-            <source src="videos/simon.mp4" type="video/mp4">
-          </video>
-          <div class="video-controls">
-            <div class="control-buttons">
-              <button class="play-btn">▶️ Воспроизвести</button>
-              <div class="time-controls">
-                <div class="time-display">0:00 / 0:00</div>
-                <div class="progress-bar">
-                  <div class="progress"></div>
-                </div>
-              </div>
-              <div class="volume-control">
-                <span class="volume-icon">🔊</span>
-                <div class="volume-slider">
-                  <div class="volume-level"></div>
-                </div>
-              </div>
-              <button class="fullscreen-btn" title="Полный экран">⛶</button>
-            </div>
-          </div>
+        <div class="youtube-video-container">
+          <iframe src="https://www.youtube.com/embed/N7m2YKSSTEk?rel=0&modestbranding=1" 
+                  title="SIMON - YouTube Shorts" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
         </div>
       </div>
       <div class="project-detail-info">
         <div class="project-title">
           <h4>SIMON</h4>
-          <span class="project-badge tiktok-badge">
-            <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-            </svg>
-            TIKTOK
-          </span>
+          <span class="project-badge youtube-badge">YOUTUBE SHORTS</span>
         </div>
         <div class="project-stats">
           <div class="project-stat">
@@ -1281,11 +1109,11 @@ const cases={
           </div>
           <div class="project-stat">
             <div class="project-value">Адаптация</div>
-            <div class="project-label">TG → TikTok</div>
+            <div class="project-label">TG → YouTube</div>
           </div>
         </div>
         <div class="project-description">
-          Адаптация контента из Telegram-канала (12 тысяч подписчиков) в формат TikTok. Сохранение уникального стиля и смысловых акцентов при переходе на более динамичную и визуальную платформу.
+          Адаптация контента из Telegram-канала (12 тысяч подписчиков) в формат YouTube Shorts. Сохранение уникального стиля и смысловых акцентов при переходе на видеоплатформу. Добавлены визуальные элементы и динамичный монтаж для привлечения новой аудитории.
         </div>
       </div>
     </div>
@@ -1294,9 +1122,109 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
+    <div class="back-btn" onclick="closeCaseOverlay()">Назад</div>
   `,
-  2:`
+  5: `
+    <div class="case-header">
+      <div class="case-title">Vibe coding — этот сайт</div>
+      <div class="case-description">
+        Пример разработки сайта-портфолио с кастомными видеоплеерами и анимациями. Кейс за 29.999₽.
+      </div>
+    </div>
+    
+    <div class="projects-grid">
+      <div class="project-item" onclick="showProject('vibe')">
+        <div class="project-video">
+          <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+               alt="Vibe Coding Демо" 
+               class="video-thumbnail">
+          <div class="play-overlay">
+            <div class="play-icon">▶</div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-title">
+            <h4>Сайт-портфолио (этот сайт)</h4>
+            <span class="project-badge vibe-badge">VIBE CODING</span>
+          </div>
+          <div class="project-stats">
+            <div class="project-stat">
+              <div class="project-value">29 999 ₽</div>
+              <div class="project-label">стоимость</div>
+            </div>
+            <div class="project-stat">
+              <div class="project-value">1 неделя</div>
+              <div class="project-label">сроки</div>
+            </div>
+          </div>
+          <div class="project-description">
+            Разработка продающего сайта-портфолио с кастомными видеоплеерами и анимациями
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="project-vibe" class="project-detail">
+      <div class="project-back" onclick="backToProjects()">← Назад к кейсам</div>
+      <div class="project-main-video">
+        <div class="youtube-video-container">
+          <!-- Здесь можешь вставить видео демонстрации сайта, если есть -->
+          <iframe src="https://www.youtube.com/embed/BigBuckBunny?rel=0&modestbranding=1" 
+                  title="Vibe Coding Демо" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div class="project-detail-info">
+        <div class="project-title">
+          <h4>Vibe coding — этот сайт</h4>
+          <span class="project-badge vibe-badge">КЕЙС ЗА 29.999₽</span>
+        </div>
+        <div class="project-stats">
+          <div class="project-stat">
+            <div class="project-value">100%</div>
+            <div class="project-label">кастомизация</div>
+          </div>
+          <div class="project-stat">
+            <div class="project-value">Адаптив</div>
+            <div class="project-label">все устройства</div>
+          </div>
+          <div class="project-stat">
+            <div class="project-value">Видео</div>
+            <div class="project-label">с контролами</div>
+          </div>
+        </div>
+        <div class="project-description">
+          <p><strong>Что было сделано для этого сайта:</strong></p>
+          <ul style="color:var(--muted); line-height:1.8; margin-top:12px; padding-left:20px;">
+            <li><strong>Встроенные YouTube видео</strong> с превью и быстрой загрузкой</li>
+            <li><strong>Плавные анимации</strong> появления элементов при скролле</li>
+            <li><strong>Тёмная тема</strong> с золотыми акцентами в стиле телеграм-каналов</li>
+            <li><strong>Адаптивная сетка</strong> для всех устройств (от телефона до десктопа)</li>
+            <li><strong>Система кейсов</strong> с оверлеем и детальным просмотром проектов</li>
+            <li><strong>Микроинтеракции:</strong> ховеры, переходы, blur-эффекты</li>
+            <li><strong>Градиенты и свечения</strong> для создания глубины</li>
+            <li><strong>Семантическая вёрстка</strong> для SEO и доступности</li>
+          </ul>
+          <p style="margin-top:20px; color:var(--gold); font-size:16px;">
+            💰 <strong>Цена такого сайта для клиента:</strong> 29.999₽
+          </p>
+          <p style="margin-top:10px; font-size:14px;">
+            Включает: дизайн, вёрстку, настройку видео, анимации, адаптацию под мобильные, базовое SEO.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta">
+      <a href="#services"><button>Заказать такой сайт</button></a>
+      <a href="https://t.me/azbyka009" target="_blank"><button>Обсудить в Telegram</button></a>
+    </div>
+    <div class="back-btn" onclick="closeCaseOverlay()">Назад</div>
+  `,
+  2: `
     <div class="case-header">
       <div class="case-title">Продюсирование</div>
       <div class="case-description">
@@ -1306,12 +1234,10 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video">
-          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-              Кейс по продюсированию<br>
-              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
-            </div>
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Скоро добавлю кейсы<br>
+            <div style="margin-top:10px;font-size:14px;">по продюсированию</div>
           </div>
         </div>
         <div class="project-info">
@@ -1321,7 +1247,7 @@ const cases={
           <div class="project-stats">
             <div class="project-stat">
               <div class="project-value">Скоро</div>
-              <div class="project-label">добавим</div>
+              <div class="project-label">добавлю</div>
             </div>
           </div>
           <div class="project-description">
@@ -1335,9 +1261,9 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
+    <div class="back-btn" onclick="closeCaseOverlay()">Назад</div>
   `,
-  3:`
+  3: `
     <div class="case-header">
       <div class="case-title">AI-видео</div>
       <div class="case-description">
@@ -1347,12 +1273,10 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video">
-          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-              Кейс с AI-видео<br>
-              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
-            </div>
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Скоро добавлю кейсы<br>
+            <div style="margin-top:10px;font-size:14px;">с AI-видео</div>
           </div>
         </div>
         <div class="project-info">
@@ -1362,7 +1286,7 @@ const cases={
           <div class="project-stats">
             <div class="project-stat">
               <div class="project-value">Скоро</div>
-              <div class="project-label">добавим</div>
+              <div class="project-label">добавлю</div>
             </div>
           </div>
           <div class="project-description">
@@ -1376,9 +1300,9 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
+    <div class="back-btn" onclick="closeCaseOverlay()">Назад</div>
   `,
-  4:`
+  4: `
     <div class="case-header">
       <div class="case-title">AI-продукты</div>
       <div class="case-description">
@@ -1388,12 +1312,10 @@ const cases={
     
     <div class="projects-grid">
       <div class="project-item">
-        <div class="project-video">
-          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-              Кейс AI-продукта<br>
-              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
-            </div>
+        <div class="project-video" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
+            Скоро добавлю кейсы<br>
+            <div style="margin-top:10px;font-size:14px;">AI-продуктов</div>
           </div>
         </div>
         <div class="project-info">
@@ -1403,7 +1325,7 @@ const cases={
           <div class="project-stats">
             <div class="project-stat">
               <div class="project-value">Скоро</div>
-              <div class="project-label">добавим</div>
+              <div class="project-label">добавлю</div>
             </div>
           </div>
           <div class="project-description">
@@ -1417,79 +1339,48 @@ const cases={
       <a href="#services"><button>Заказать услугу</button></a>
       <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
     </div>
-    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
-  `,
-  5:`
-    <div class="case-header">
-      <div class="case-title">Vibe coding</div>
-      <div class="case-description">
-        Разработка интерфейсов, где каждая деталь — анимация, переход, типографика — работает на общее впечатление. Интерфейсы, которые запоминаются и вызывают эмоции.
-      </div>
-    </div>
-    
-    <div class="projects-grid">
-      <div class="project-item">
-        <div class="project-video">
-          <div class="video-container" style="background:rgba(200,161,74,0.05);display:flex;align-items:center;justify-content:center;">
-            <div style="font-size:16px;color:var(--muted);text-align:center;padding:20px;">
-              Кейс по Vibe coding<br>
-              <div style="margin-top:10px;font-size:14px;">(будет добавлен в ближайшее время)</div>
-            </div>
-          </div>
-        </div>
-        <div class="project-info">
-          <div class="project-title">
-            <h4>Пример интерфейса</h4>
-          </div>
-          <div class="project-stats">
-            <div class="project-stat">
-              <div class="project-value">Скоро</div>
-              <div class="project-label">добавим</div>
-            </div>
-          </div>
-          <div class="project-description">
-            Примеры интерфейсов будут добавлены в ближайшее время
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="case-cta">
-      <a href="#services"><button>Заказать услугу</button></a>
-      <a href="https://t.me/azbyka009" target="_blank"><button>Написать в Telegram</button></a>
-    </div>
-    <div class="back-btn" onclick="document.querySelector('.case-overlay').classList.remove('active')">Назад</div>
+    <div class="back-btn" onclick="closeCaseOverlay()">Назад</div>
   `
 };
 
-document.querySelectorAll('.case-card').forEach(c=>{
-  c.onclick=()=>{
-    content.innerHTML=cases[c.dataset.case];
-    overlay.classList.add('active');
-    
-    // Инициализировать видеоплееры после открытия кейса
-    setTimeout(() => {
-      content.querySelectorAll('video').forEach(video => {
-        if (video.closest('.video-container')) {
-          initVideoPlayer(video);
-        }
-      });
-    }, 100);
+// Initialize case cards
+document.querySelectorAll('.case-card').forEach(function(c) {
+  c.addEventListener('click', function() {
+    const caseId = this.getAttribute('data-case');
+    if (cases[caseId]) {
+      content.innerHTML = cases[caseId];
+      overlay.classList.add('active');
+    }
+  });
+});
+
+// Функция закрытия оверлея
+function closeCaseOverlay() {
+  overlay.classList.remove('active');
+}
+
+// Обработчики закрытия
+overlay.addEventListener('click', function(e) {
+  if (e.target === overlay) {
+    closeCaseOverlay();
   }
 });
 
-overlay.onclick=e=>{
-  if(e.target===overlay){
-    overlay.classList.remove('active');
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('back-btn')) {
+    closeCaseOverlay();
   }
-};
+});
 
-document.addEventListener('click',e=>{
-  if(e.target.classList.contains('back-btn')){
-    overlay.classList.remove('active');
-  }
+// Открытие Telegram
+function openTelegram() {
+  window.open('https://t.me/azbyka009', '_blank');
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+  // Все готово
 });
 </script>
-
 </body>
 </html>
